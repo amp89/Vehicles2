@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+?
+
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js">
+		
+	</script>
+
+<script>
+
+ $(document).ready(function(){
+	 console.log("jq loaded");
+	 $.getJSON("rest/hi",null,function(data){
+		 console.log('data')
+	 },'json');
+	 
+ });
+ 
+ 
+
+</script>
+</body>
+</html>
