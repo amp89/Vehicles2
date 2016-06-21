@@ -1,6 +1,5 @@
 package data;
 
-import java.awt.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +7,9 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.MongoException;
@@ -20,7 +21,7 @@ import com.mongodb.client.model.Filters;
 public class VehiclesMongoDBDAO implements VehiclesDAO {
 
 //	final String DB_NAME = "vehicleTestOne";
-	final String DB_NAME = "DB_NAME";
+	final String DB_NAME = "vehicleTestOne";
     final String DB_ADDRESS = "mongodb://localhost:27017";
 //    final String CSV_FILE_NAME = "vehicle-specifications.csv";
     final String COLLECTION_NAME = "vehciles";
@@ -183,14 +184,22 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 	@Override
 	public String deleteVehicleById(String id) {
 		// TODO Auto-generated method stub
-		MongoCursor<Document> vehicleCursor = vehicleCollection.find(Filters.eq("_id",id)).iterator();
-		Document vehicleToDelete = null;
-		if(vehicleCursor.hasNext()){
-			vehicleCollection.findOneAndDelete(vehicleCursor.next());
-		}else{
-			//TODO: its getting here, so its probably not finding stuff
-			System.err.println("Could not be deleted");
-		}
+		System.out.println(id);
+
+		ObjectId oid = new ObjectId(id);
+		Document v = vehicleCollection.find(Filters.eq("_id",oid)).first();
+		vehicleCollection.deleteOne(v);
+		System.out.println(v);
+		
+//		vehicleCollection.(Filters.eq("_id",id));
+		
+//		if(vehicleCursor.hasNext()){
+//			System.out.println();
+//			vehicleCollection.findOneAndDelete(vehicleCursor.next());
+//		}else{
+//			//TODO: its getting here, so its probably not finding stuff
+//			System.err.println("Could not be deleted");
+//		}
 		return null;
 	}
 

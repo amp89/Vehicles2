@@ -104,13 +104,13 @@
 	 $("#deleteDeleteMe").on("click",function(event){
 		 event.preventDefault();
 		 
-		 var idObject = {id:"5768dfa07ad46803c11bd359"}
+		 var idObject = {id:"5768dfa07ad46803c11bd358"}
 		 
 		 var idToDelete = JSON.stringify(idObject);
 		 
 		 $.ajax({
 			 type:"delete",
-			 url:"rest/deleteById/" + idToDelete.id,
+			 url:"rest/deleteById/" + "5768dfa07ad46803c11bd358",
 			 contentType : 'application/json; charset=utf-8',
 			 data:idToDelete,
 			 //dataType:"json"
