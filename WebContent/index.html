@@ -6,7 +6,27 @@
 </head>
 <body>
 ?
-
+	<form id="newVehicle">
+		<!-- Id<input type ="text" name="id"><br> -->
+		int<input type ="text" name="year"><br>
+		<input type ="text" name="model"><br>
+		<input type ="text" name="make"><br>
+		<input type ="text" name="driveType"><br>
+		double<input type ="text" name="displacement"><br>
+		<input type ="text" name="transmissionType"><br>
+		<input type ="text" name="fuelType"><br>
+		double<input type ="text" name="cityMpg"><br>
+		double<input type ="text" name="highwayMpg"><br>
+		true/false<input type ="text" name="hasGasTax"><br>
+		double<input type ="text" name="emissions"><br>
+		double<input type ="text" name="highwayMpg"><br>
+		<!-- <input type ="text" name="averageMpg"><br> -->
+	</form>
+	<button id="addNewVehicle">add</button>
+	
+	<!-- 5765c63186fc4803c6fe7d2a -->
+	<input type="text" name="deleteMe" value="5768dfa07ad46803c11bd359"><br>
+	<button id="deleteDeleteMe">delete 5768dfa07ad46803c11bd359</button>
 
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js">
@@ -17,9 +37,100 @@
 
  $(document).ready(function(){
 	 console.log("jq loaded");
+
+	 console.log("sldkfjsldkfjsdlfjas;ldfaspuifhksajdwgpuowr943y8g9rwthu3eo8eugr");
+	 
 	 $.getJSON("rest/hi",null,function(data){
-		 console.log('data')
+		 console.log(data);
 	 },'json');
+	 
+	 console.log("sldkfjsldkfjsdlfjas;ldfaspuifhksajdwgpuowr943y8g9rwthu3eo8eugr");
+	 
+/* 	 $.getJSON("rest/test",null,function(data){
+		 console.log(data);
+	 },'json'); */
+	 
+	 console.log("sldkfjsldkfjsdlfjas;ldfaspuifhksajdwgpuowr943y8g9rwthu3eo8eugr");
+	 
+	 $.getJSON("rest/testVehicle",null,function(data){
+		 console.log(data);
+	 },'json');
+	 
+	 
+	 $.getJSON("rest/testVehcileList",null,function(data){
+		 console.log(data);
+		 console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+		 console.log(data[0]);
+		 console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+		 console.log(data[1]);
+		 console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+		 console.log(data[1].year);
+		 console.log(data[1].make);
+		 console.log(data[1].model);
+		 console.log(data[1].year);
+		 
+	 },'json');
+	 
+	 
+	 $("#addNewVehicle").on("click",function(event){
+		 console.log("event listener added");
+		 event.preventDefault();
+		 var object = {};
+		 var $formValues = $("#newVehicle").serializeArray();
+		 $.each($formValues,function(){
+			 object[this.name] = this.value;
+		 });
+		 
+		 var objectToPost = JSON.stringify(object);
+		
+		 $.ajax({
+			 type:"post",
+			 url:"rest/testVehiclePost",
+			 contentType : 'application/json; charset=utf-8',
+			 data:objectToPost,
+			 //dataType:"json"
+			 dataType:"text"
+		 }).done(function(data){
+			 console.log("data");
+			 //nothing actually comes here
+		 }).fail(function(){
+			 console.log()
+		 });
+	 });
+	 
+/* 		<input type="text" name="deleteMe" value="5768dfa07ad46803c11bd359" /><br>
+		<button id="deleteDeleteMe">delete 5768dfa07ad46803c11bd359</button>
+ */
+	 $("#deleteDeleteMe").on("click",function(event){
+		 event.preventDefault();
+		 
+		 var idObject = {id:"5768dfa07ad46803c11bd359"}
+		 
+		 var idToDelete = JSON.stringify(idObject);
+		 
+		 $.ajax({
+			 type:"delete",
+			 url:"rest/deleteById/" + idToDelete.id,
+			 contentType : 'application/json; charset=utf-8',
+			 data:idToDelete,
+			 //dataType:"json"
+			 dataType:"text"
+		 }).done(function(data){
+			 console.log("data");
+			 //nothing actually comes here
+		 }).fail(function(){
+			 console.log()
+		 });
+		 
+		 
+		 
+	 });
+	 
+	 
+	 
+	 
+	 
+	 
 	 
  });
  

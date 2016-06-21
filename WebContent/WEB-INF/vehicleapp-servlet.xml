@@ -13,6 +13,9 @@
        
        <context:component-scan base-package="controllers"/>
        <mvc:annotation-driven/> 
+       
+       <bean id="dao" class="data.VehiclesMongoDBDAO"></bean>
+       
        <!-- <mvc:default-servlet-handler/> -->
        
        
