@@ -56,16 +56,31 @@ public class VehicleRestController {
 		return vList;
 	}
 	
+	@RequestMapping(value = "/getOneVehicle/{id}", method = RequestMethod.GET)
+	public String getOneVehicle(@PathVariable String id){
+		String vehicleJSON = dao.getVehicleById(id);
+		System.out.println("sending back " + vehicleJSON);
+		return vehicleJSON;
+	}
+	
+	@RequestMapping(value = "/updateVehicle", method = RequestMethod.PUT)
+	public String updateVehicle(@RequestBody VehicleFormData vfd){
+		System.out.println(vfd);
+		dao.updateVehicle(vfd);
+		//TODO add update dao
+		return "updated";
+	}
+	
 	@RequestMapping(value = "/testVehiclePost", method = RequestMethod.POST)
 	public String testVehiclePost(@RequestBody VehicleFormData vfd){
 		System.out.println("in test vehicle POSTTTT");
 		System.out.println(vfd);
+		//TODO add add v to dao
 		return "vehicle added";
 	}
 	
 	@RequestMapping(value="/deleteById/{id}", method = RequestMethod.DELETE)
 	public String deleteById(@PathVariable String id){
-		System.out.println("got to delete method");
 		dao.deleteVehicleById(id);
 		return "vehicle deleted";
 	}

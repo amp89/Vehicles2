@@ -32,6 +32,11 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js">
 		
 	</script>
+<br><br><br>
+	<form id="updateV">
+
+	</form>
+	<button id="submitUpdate">submit update</button>
 
 <script>
 
@@ -116,15 +121,91 @@
 			 //dataType:"json"
 			 dataType:"text"
 		 }).done(function(data){
-			 console.log("data");
+			 console.log(data);
 			 //nothing actually comes here
 		 }).fail(function(){
-			 console.log()
+			 console.log("delete failed");
 		 });
 		 
 		 
 		 
 	 });
+ 
+	/*<fo/* rm id="fromDB">
+	<!-- Id<input type ="text" name="id"><br> -->
+	int<input type ="text" name="year"><br>
+	<input type ="text" name="model"><br>
+	<input type ="text" name="make"><br>
+	<input type ="text" name="driveType"><br>
+	double<input type ="text" name="displacement"><br>
+	<input type ="text" name="transmissionType"><br>
+	<input type ="text" name="fuelType"><br>
+	double<input type ="text" name="cityMpg"><br>
+	double<input type ="text" name="highwayMpg"><br>
+	true/false<input type ="text" name="hasGasTax"><br>
+	double<input type ="text" name="emissions"><br>
+	double<input type ="text" name="highwayMpg"><br>
+	<!-- <input type ="text" name="averageMpg"><br> -->
+</form> */
+	var idNumber = "57699c9224f8740258137919"
+	var $updateForm = $("#updateV")
+	$.getJSON("rest/getOneVehicle/" + idNumber,null,function(data){
+			console.log("wowowowow" + data);
+		 $updateForm.append("<input type='hidden' name = 'id' value='"+data._id.$oid+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'year' value='"+data.year+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'model' value='"+data.model+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'make' value='"+data.make+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'driveType' value='"+data.mechData.driveType+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'displacement' value='"+data.mechData.displacment+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'transmissionType' value='"+data.mechData.transmissionType+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'fuelType' value='"+data.mechData.fuelType+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'cityMpg' value='"+data.epaData.cityMpg+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'highwayMpg' value='"+data.epaData.highwayMpg+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'hasGasTax' value='"+data.epaData.hasGasTax+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'emissions' value='"+data.epaData.emissions+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'averageMpg' value='"+data.epaData.averageMpg+"'/><br>");
+		 
+		 
+	 },'json');
+	 
+	 
+ 
+ 	//this will be a put
+	  $("#submitUpdate").on("click",function(event){
+		 event.preventDefault();
+		 
+		 var idObject = {id:"57699c9224f8740258137919"}
+		 
+		 var idToDelete = JSON.stringify(idObject);
+		 var $formValues = $("#updateV").serializeArray();
+		 
+		 var object = {}
+		 $.each($formValues,function(){
+			 object[this.name] = this.value;
+		 });
+		 
+		 var updateToSubmit = JSON.stringify(object);
+		 
+		 
+		 $.ajax({
+			 type:"put",
+			 url:"rest/updateVehicle",
+			 contentType : 'application/json; charset=utf-8',
+			 data:updateToSubmit,
+			 //dataType:"json"
+			 dataType:"text"
+		 }).done(function(data){
+			 console.log(data);
+			 //nothing actually comes here
+		 }).fail(function(){
+			 console.log("update failed");
+		 });
+		 
+		 
+		 
+	 });
+  
+ 
 	 
 	 
 	 

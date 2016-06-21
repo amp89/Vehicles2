@@ -1,7 +1,9 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -9,7 +11,6 @@ import javax.annotation.PreDestroy;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.MongoException;
@@ -18,13 +19,15 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 
+import entities.VehicleFormData;
+
 public class VehiclesMongoDBDAO implements VehiclesDAO {
 
 //	final String DB_NAME = "vehicleTestOne";
-	final String DB_NAME = "vehicleTestOne";
+	final String DB_NAME = "vehicleTestTwo";
     final String DB_ADDRESS = "mongodb://localhost:27017";
 //    final String CSV_FILE_NAME = "vehicle-specifications.csv";
-    final String COLLECTION_NAME = "vehciles";
+    final String COLLECTION_NAME = "vehicles";
     
     MongoDatabase db = null;
     MongoClient mongoClient = null;
@@ -98,10 +101,29 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 	}
 
 	@Override
-	public String getVehiclesById() {
+	public String getVehiclesById(String id) {
+		//TODO fix this to get multiples, or just delete it
+		System.out.println("get vehicles by id");
+		System.out.println(id);
+		ObjectId oid = new ObjectId(id);
+		System.out.println(oid);
+		Document vehicle = vehicleCollection.find(Filters.eq("_id", oid)).first();
+		
 		// TODO Auto-generated method stub
-		return null;
+		return vehicle.toJson();
 	}
+	
+	@Override
+	public String getVehicleById(String id) {
+		System.out.println("get vehicles by id");
+		System.out.println(id);
+		ObjectId oid = new ObjectId(id);
+		System.out.println(oid);
+		Document vehicle = vehicleCollection.find(Filters.eq("_id", oid)).first();
+		
+		return vehicle.toJson();
+	}
+	
 
 	@Override
 	public String getVehiclesByYearRange() {
@@ -222,9 +244,80 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 	}
 
 	@Override
-	public String getModelListByMake() {
+	public String getModelListByMake(String make) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public String updateVehicle(VehicleFormData vfd){
+		ObjectId oid = new ObjectId(vfd.getId());
+		System.out.println(oid);
+		Document vehicleToUpdate = vehicleCollection.find(Filters.eq("_id", oid)).first();
+		System.out.println("origin: " + vehicleToUpdate);
+		Document convertedVehicle = convertFormDataToDocument(vfd);
+		System.out.println("new: " + convertedVehicle);
 
+		
+		vehicleCollection.replaceOne(Filters.eq("_id", oid), new Document(convertFormDataToMap(vfd)));
+		
+		
+		
+		
+		return "Updated";
+	}
+
+	private Document convertFormDataToDocument(VehicleFormData vfd){
+		Map<String,Object> vehicleDataMap = new HashMap<>();
+
+		vehicleDataMap.put("year", vfd.getYear());
+		vehicleDataMap.put("make", vfd.getMake().trim());
+		vehicleDataMap.put("model", vfd.getModel().trim());
+		Map<String,Object> mechDataMap = new HashMap<>();
+		mechDataMap.put("driveType", vfd.getDriveType().trim());
+		mechDataMap.put("displacement", vfd.getDisplacement());
+		mechDataMap.put("transmissionType", vfd.getTransmissionType().trim());
+		mechDataMap.put("fuelType", vfd.getFuelType().trim());
+		
+		
+		Map<String,Object> epaDataMap = new HashMap<>();
+		epaDataMap.put("cityMpg", vfd.getCityMpg());
+		epaDataMap.put("highwayMpg", vfd.getHighwayMpg());
+		epaDataMap.put("hasGasTax", vfd.isHasGasTax());
+		epaDataMap.put("averageMpg", vfd.getAverageMpg());
+		epaDataMap.put("emissions", vfd.getEmissions());
+		
+		vehicleDataMap.put("epaData", epaDataMap);
+		vehicleDataMap.put("mechData", mechDataMap);
+		
+		Document convertedVehicle = new Document(vehicleDataMap);
+		return convertedVehicle;
+	}
+	
+	private Map<String,Object> convertFormDataToMap(VehicleFormData vfd){
+		Map<String,Object> vehicleDataMap = new HashMap<>();
+		
+		vehicleDataMap.put("year", vfd.getYear());
+		vehicleDataMap.put("make", vfd.getMake().trim());
+		vehicleDataMap.put("model", vfd.getModel().trim());
+		Map<String,Object> mechDataMap = new HashMap<>();
+		mechDataMap.put("driveType", vfd.getDriveType().trim());
+		mechDataMap.put("displacement", vfd.getDisplacement());
+		mechDataMap.put("transmissionType", vfd.getTransmissionType().trim());
+		mechDataMap.put("fuelType", vfd.getFuelType().trim());
+		
+		
+		Map<String,Object> epaDataMap = new HashMap<>();
+		epaDataMap.put("cityMpg", vfd.getCityMpg());
+		epaDataMap.put("highwayMpg", vfd.getHighwayMpg());
+		epaDataMap.put("hasGasTax", vfd.isHasGasTax());
+		epaDataMap.put("averageMpg", vfd.getAverageMpg());
+		epaDataMap.put("emissions", vfd.getEmissions());
+		
+		vehicleDataMap.put("epaData", epaDataMap);
+		vehicleDataMap.put("mechData", mechDataMap);
+		
+		Document convertedVehicle = new Document(vehicleDataMap);
+		return vehicleDataMap;
+	}
 }

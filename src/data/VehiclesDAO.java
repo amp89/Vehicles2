@@ -2,6 +2,8 @@ package data;
 
 import java.util.List;
 
+import entities.VehicleFormData;
+
 public interface VehiclesDAO {
 
 	/*
@@ -21,7 +23,8 @@ public interface VehiclesDAO {
 	 * Get Vehicles
 	 */
 	public String getVehicles();
-	public String getVehiclesById();
+	public String getVehicleById(String id);
+	public String getVehiclesById(String id);
 	public String getVehiclesByYearRange();
 	public String getVehiclesByMake();
 	public String getVehiclesByModel();
@@ -52,12 +55,12 @@ public interface VehiclesDAO {
 	/*
 	 * get model list by make
 	 */
-	public String getModelListByMake();
+	public String getModelListByMake(String make);
 	
 	/*
-	 * 
+	 * update vehicle
 	 */
-	
+	public String updateVehicle(VehicleFormData vfd);
 	/*
 	 * 
 	 */
