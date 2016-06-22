@@ -61,6 +61,20 @@ averageMpgLow<input type="text" name="averageMpgLow" /><br>
 </form>
 <button id="submitSearch">Submit Serach</button>
 
+<br><br><br>
+
+
+<button id="getModelList">getmodellist</button><br>
+<button id="getTransmissionTypeList">getTransmissionTypeList</button><br>
+<button id="getFuelTypeList">getFuelTypeList</button><br>
+<button id="getDriveTypeList">getDriveTypeList</button><br>
+<button id="getMakeList">getMakeList</button><br>
+<button id="getEpaData">getEpaData</button><br>
+<button id="getImage">getmodellist</button><br>
+
+
+
+
 <script>
 
  $(document).ready(function(){
@@ -266,12 +280,64 @@ averageMpgLow<input type="text" name="averageMpgLow" /><br>
 				 console.log("update failed");
 			 });
 	 		
-	 	})
+	 	});
 	 	
 	 	
-	 
-	 
-	 
+
+
+/* 	 	<button id="getModelList">getmodellist</button><br>
+	 	<button id="getTransmissionTypeList">getTransmissionTypeList</button><br>
+	 	<button id="getFuelTypeList">getFuelTypeList</button><br>
+	 	<button id="getDriveTypeList">getDriveTypeList</button><br>
+	 	<button id="getMakeList">getMakeList</button><br>
+	 	<button id="getEpaData">getEpaData</button><br>
+	 	<button id="getImage">getmodellist</button><br>
+ */
+	 	
+ 		$("#getModelList").on("click",function(event){
+ 			event.preventDefault();
+
+ 			
+ 		});
+ 		
+ 
+ 
+ 		$("#getTransmissionTypeList").on("click",function(event){
+ 			event.preventDefault();
+		 $.getJSON("rest/getTransmissionTypeList",null,function(data){
+				 console.log(data);
+			 },'json');
+ 		
+ 		});
+ 
+ 
+ 		$("#getFuelTypeList").on("click",function(event){event.preventDefault();
+ 		
+ 		});
+ 
+ 
+ 		$("#getDriveTypeList").on("click",function(event){event.preventDefault();
+ 		
+ 		});
+ 
+ 
+ 		$("#getMakeList").on("click",function(event){event.preventDefault();
+ 		
+ 		
+ 		});
+ 
+ 
+ 		$("#getEpaData").on("click",function(event){event.preventDefault();
+ 		
+ 		});
+ 
+ 
+ 		$("#getImage").on("click",function(event){event.preventDefault();
+ 		
+ 		
+ 		});
+ 
+
 	 
 	 
  });

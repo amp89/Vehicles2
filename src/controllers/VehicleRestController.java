@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -114,8 +115,10 @@ public class VehicleRestController {
 	
 	
 	@RequestMapping(value="/getTransmissionTypeList", method= RequestMethod.GET)
-	public List<String> getTransmissionTypeList(){
-		return null;
+	public Set<String> getTransmissionTypeList(){
+		Set<String> result = dao.getTransmissionTypeList();
+		
+		return result;
 	}
 	
 	
@@ -136,6 +139,22 @@ public class VehicleRestController {
 		return null;
 	}
 	
+	//data for individual vehicles
+	
+	@RequestMapping(value="/getMechData/{id}", method= RequestMethod.GET)
+	public List<String> getMechData(@PathVariable String id){
+		return null;
+	}
+	
+	@RequestMapping(value="/getEpaData/{id}", method= RequestMethod.GET)
+	public List<String> getEpaData(@PathVariable String id){
+		return null;
+	}
+	
+	@RequestMapping(value="/getImage/{make}/{model}", method= RequestMethod.GET)
+	public List<String> getImage(@PathVariable String make,@PathVariable String model){
+		return null;
+	}
 	
 	
 	

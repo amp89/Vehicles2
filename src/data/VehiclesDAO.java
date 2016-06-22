@@ -1,6 +1,7 @@
 package data;
 
 import java.util.List;
+import java.util.Set;
 
 import entities.SearchFormVehicleData;
 import entities.VehicleFormData;
@@ -56,7 +57,9 @@ public interface VehiclesDAO {
 	/*
 	 * get model list by make
 	 */
-	public String getModelListByMake(String make);
+	public List<String> getModelListByMake(String make);
+	public Set<String> getTransmissionTypeList();
+	
 	
 	/*
 	 * update vehicle

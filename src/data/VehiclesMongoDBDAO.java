@@ -1,24 +1,26 @@
 package data;
 
+import static com.mongodb.client.model.Projections.fields;
+import static com.mongodb.client.model.Projections.include;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.naming.directory.SearchControls;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.MongoException;
-import com.mongodb.QueryBuilder;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -423,12 +425,37 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 		return null;
 	}
 
+	//get lists
+	
 	@Override
-	public String getModelListByMake(String make) {
+	public List<String> getModelListByMake(String make) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public Set<String> getTransmissionTypeList(){
+		MongoCursor<Document> resultCursor = vehicleCollection.find().projection(include("mechData.transmissionType")).iterator();
+		List<String> resultList = new ArrayList();
+		Set<String> resultSet = new TreeSet<>();
+		while(resultCursor.hasNext()){
+			Document result = resultCursor.next();
+//			String transmissionTypeString = resultCursor.
+//			resultList.add(result.getString(key));
+//			resultSet.add(result.toJson());
+			Document mechData = (Document) result.get("mechData");
+			String transmissionTypeString =  mechData.get("transmissionType").toString();
+			if(!transmissionTypeString.equals("")){
+				resultSet.add(mechData.get("transmissionType").toString());
+			}
+		}
+		return resultSet;
+		
+	}
+	
+	
+	
+	
 	@Override
 	public String updateVehicle(VehicleFormData vfd) {
 		ObjectId oid = new ObjectId(vfd.getId());
