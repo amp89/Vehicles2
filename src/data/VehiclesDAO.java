@@ -2,6 +2,7 @@ package data;
 
 import java.util.List;
 
+import entities.SearchFormVehicleData;
 import entities.VehicleFormData;
 
 public interface VehiclesDAO {
@@ -38,7 +39,7 @@ public interface VehiclesDAO {
 	public String getVehiclesByEmissionsRange();
 	public String getVehiclesByGasTax();
 	//genneral
-	public String getVehiclesByParameters();
+	public List<String> getVehiclesByParameters(SearchFormVehicleData sfvd);
 	/*
 	 * Delete vehicles by id
 	 */

@@ -2,35 +2,277 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Test Routes</title>
+<title>Insert title here</title>
 </head>
 <body>
-
-	<button id=""></button>
-	<button id=""></button>
-	<button id=""></button>
-	<button id=""></button>
-	<button id=""></button>
-	<button id=""></button>
-	<button id=""></button>
-	<button id=""></button>
-	<button id=""></button>
-	<button id=""></button>
-
+?
+	<form id="newVehicle">
+		<!-- Id<input type ="text" name="id"><br> -->
+		int<input type ="text" name="year"><br>
+		<input type ="text" name="model"><br>
+		<input type ="text" name="make"><br>
+		<input type ="text" name="driveType"><br>
+		double<input type ="text" name="displacement"><br>
+		<input type ="text" name="transmissionType"><br>
+		<input type ="text" name="fuelType"><br>
+		double<input type ="text" name="cityMpg"><br>
+		double<input type ="text" name="highwayMpg">		<br>
+		true/false<input type ="text" name="hasGasTax"><br>
+		double<input type ="text" name="emissions"><br>
+		double<input type ="text" name="highwayMpg"><br>
+		<!-- <input type ="text" name="averageMpg"><br> -->
+	</form>
+	<button id="addNewVehicle">add</button>
+	
+	<!-- 5765c63186fc4803c6fe7d2a -->
+	<input type="text" name="deleteMe" value="5768dfa07ad46803c11bd359"><br>
+	<button id="deleteDeleteMe">delete 5768dfa07ad46803c11bd359</button>
 
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js">
 		
 	</script>
+<br><br><br>
+	<form id="updateV">
+
+	</form>
+	<button id="submitUpdate">submit update</button>
+<br><br><br>
+search form
+<form id="searchForm">
+yearLow<input type="text" name="yearLow" /><br>
+yearHigh<input type="text" name="yearHigh" /><br>
+model<input type="text" name="model" /><br>
+make<input type="text" name="make" /><br>
+driveType<input type="text" name="driveType" /><br>
+displacementLow<input type="text" name="displacementLow" /><br>
+displacementHigh<input type="text" name="displacementHigh" /><br>
+transmissionType<input type="text" name="transmissionType" /><br>
+fuelType<input type="text" name="fuelType" /><br>
+cityMpgLow<input type="text" name="cityMpgLow" /><br>
+cityMpgHigh<input type="text" name="cityMpgHigh" /><br>
+hasGasTax<input type="text" name="hasGasTax" /><br>
+emissionsLow<input type="text" name="emissionsLow" /><br>
+emissionsHigh<input type="text" name="emissionsHigh" /><br>
+highwayMpgLow<input type="text" name="highwayMpgLow" /><br>
+highwayMpgHigh<input type="text" name="highwayMpgHigh" /><br>
+averageMpgHigh<input type="text" name="averageMpgHigh" /><br>
+averageMpgLow<input type="text" name="averageMpgLow" /><br>
+</form>
+<button id="submitSearch">Submit Serach</button>
 
 <script>
 
  $(document).ready(function(){
 	 console.log("jq loaded");
+
+	 console.log("sldkfjsldkfjsdlfjas;ldfaspuifhksajdwgpuowr943y8g9rwthu3eo8eugr");
 	 
 	 $.getJSON("rest/hi",null,function(data){
-		 console.log(data)
+		 console.log(data);
 	 },'json');
+	 
+	 console.log("sldkfjsldkfjsdlfjas;ldfaspuifhksajdwgpuowr943y8g9rwthu3eo8eugr");
+	 
+/* 	 $.getJSON("rest/test",null,function(data){
+		 console.log(data);
+	 },'json'); */
+	 
+	 console.log("sldkfjsldkfjsdlfjas;ldfaspuifhksajdwgpuowr943y8g9rwthu3eo8eugr");
+	 
+	 $.getJSON("rest/testVehicle",null,function(data){
+		 console.log(data);
+	 },'json');
+	 
+	 
+	 $.getJSON("rest/testVehcileList",null,function(data){
+		 console.log(data);
+		 console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+		 console.log(data[0]);
+		 console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+		 console.log(data[1]);
+		 console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+		 console.log(data[1].year);
+		 console.log(data[1].make);
+		 console.log(data[1].model);
+		 console.log(data[1].year);
+		 
+	 },'json');
+	 
+	 
+	 $("#addNewVehicle").on("click",function(event){
+		 console.log("event listener added");
+		 event.preventDefault();
+		 var object = {};
+		 var $formValues = $("#newVehicle").serializeArray();
+		 $.each($formValues,function(){
+			 object[this.name] = this.value;
+		 });
+		 
+		 var objectToPost = JSON.stringify(object);
+		
+		 $.ajax({
+			 type:"post",
+			 url:"rest/testVehiclePost",
+			 contentType : 'application/json; charset=utf-8',
+			 data:objectToPost,
+			 //dataType:"json"
+			 dataType:"text"
+		 }).done(function(data){
+			 console.log("data");
+			 //nothing actually comes here
+		 }).fail(function(){
+			 console.log()
+		 });
+	 });
+	 
+/* 		<input type="text" name="deleteMe" value="5768dfa07ad46803c11bd359" /><br>
+		<button id="deleteDeleteMe">delete 5768dfa07ad46803c11bd359</button>
+ */
+	 $("#deleteDeleteMe").on("click",function(event){
+		 event.preventDefault();
+		 
+		 var idObject = {id:"5768dfa07ad46803c11bd358"}
+		 
+		 var idToDelete = JSON.stringify(idObject);
+		 
+		 $.ajax({
+			 type:"delete",
+			 url:"rest/deleteById/" + "5768dfa07ad46803c11bd358",
+			 contentType : 'application/json; charset=utf-8',
+			 data:idToDelete,
+			 //dataType:"json"
+			 dataType:"text"
+		 }).done(function(data){
+			 console.log(data);
+			 //nothing actually comes here
+		 }).fail(function(){
+			 console.log("delete failed");
+		 });
+		 
+		 
+		 
+	 });
+ 
+	/*<fo/* rm id="fromDB">
+	<!-- Id<input type ="text" name="id"><br> -->
+	int<input type ="text" name="year"><br>
+	<input type ="text" name="model"><br>
+	<input type ="text" name="make"><br>
+	<input type ="text" name="driveType"><br>
+	double<input type ="text" name="displacement"><br>
+	<input type ="text" name="transmissionType"><br>
+	<input type ="text" name="fuelType"><br>
+	double<input type ="text" name="cityMpg"><br>
+	double<input type ="text" name="highwayMpg"><br>
+	true/false<input type ="text" name="hasGasTax"><br>
+	double<input type ="text" name="emissions"><br>
+	double<input type ="text" name="highwayMpg"><br>
+	<!-- <input type ="text" name="averageMpg"><br> -->
+</form> */
+	var idNumber = "57699c9224f8740258137919"
+	var $updateForm = $("#updateV")
+	$.getJSON("rest/getOneVehicle/" + idNumber,null,function(data){
+			console.log("wowowowow" + data);
+		 $updateForm.append("<input type='hidden' name = 'id' value='"+data._id.$oid+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'year' value='"+data.year+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'model' value='"+data.model+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'make' value='"+data.make+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'driveType' value='"+data.mechData.driveType+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'displacement' value='"+data.mechData.displacment+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'transmissionType' value='"+data.mechData.transmissionType+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'fuelType' value='"+data.mechData.fuelType+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'cityMpg' value='"+data.epaData.cityMpg+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'highwayMpg' value='"+data.epaData.highwayMpg+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'hasGasTax' value='"+data.epaData.hasGasTax+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'emissions' value='"+data.epaData.emissions+"'/><br>");
+		 $updateForm.append("<input type='text' name = 'averageMpg' value='"+data.epaData.averageMpg+"'/><br>");
+		 
+		 
+	 },'json');
+	 
+	 
+ 
+ 	//this will be a put
+	  $("#submitUpdate").on("click",function(event){
+		 event.preventDefault();
+		 
+		 var idObject = {id:"57699c9224f8740258137919"}
+		 
+		 var idToDelete = JSON.stringify(idObject);
+		 var $formValues = $("#updateV").serializeArray();
+		 
+		 var object = {}
+		 $.each($formValues,function(){
+			 object[this.name] = this.value;
+		 });
+		 
+		 var updateToSubmit = JSON.stringify(object);
+		 
+		 
+		 $.ajax({
+			 type:"put",
+			 url:"rest/updateVehicle",
+			 contentType : 'application/json; charset=utf-8',
+			 data:updateToSubmit,
+			 //dataType:"json"
+			 dataType:"text"
+		 }).done(function(data){
+			 console.log(data);
+			 //nothing actually comes here
+		 }).fail(function(){
+			 console.log("update failed");
+		 });
+		 
+		 
+		 
+	 });
+  
+ 
+	 
+	 	//this will be a post
+	 	
+	 	//serach vehicles
+	 	$("#submitSearch").on("click",function(event){
+	 		event.preventDefault();
+	 		
+
+			 var $formValues = $("#searchForm").serializeArray();
+			 
+			 for(var i = 0; i < $formValues.length; i++){
+				 console.log($formValues[i]);
+			 }
+			 
+			 var object = {}
+			 $.each($formValues,function(){
+				 object[this.name] = this.value;
+			 });
+			 
+			 
+			 
+			 var serachData = JSON.stringify(object);
+			 
+			 $.ajax({
+				 type:"post",
+				 url:"rest/searchVehicles",
+				 contentType : 'application/json; charset=utf-8',
+				 data:serachData,
+				 //dataType:"json"
+				 dataType:"json"
+			 }).done(function(data){
+				 console.log(data);
+				 //nothing actually comes here
+			 }).fail(function(){
+				 console.log("update failed");
+			 });
+	 		
+	 	})
+	 	
+	 	
+	 
+	 
+	 
+	 
 	 
  });
  

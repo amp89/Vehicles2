@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import data.VehiclesDAO;
 import entities.EpaData;
 import entities.MechData;
+import entities.SearchFormVehicleData;
 import entities.Vehicle;
 import entities.VehicleFormData;
 
@@ -84,6 +85,59 @@ public class VehicleRestController {
 		dao.deleteVehicleById(id);
 		return "vehicle deleted";
 	}
+	
+	
+	
+	@RequestMapping(value="/searchVehicles", method= RequestMethod.POST)
+	public List<String> searchVehicles(@RequestBody SearchFormVehicleData sfvd){
+		System.out.println(sfvd);
+		List<String> resultList = dao.getVehiclesByParameters(sfvd);
+		System.out.println("IN controller, resturning results");
+		for (String string : resultList) {
+			System.out.println(string);
+		}
+		
+		
+		
+		return resultList;
+		
+	}
+	
+	
+	
+	@RequestMapping(value="/getModelList/{make}", method= RequestMethod.GET)
+	public List<String> getModelListByMake(@PathVariable String make){
+	
+		return null;
+		
+	}
+	
+	
+	@RequestMapping(value="/getTransmissionTypeList", method= RequestMethod.GET)
+	public List<String> getTransmissionTypeList(){
+		return null;
+	}
+	
+	
+	@RequestMapping(value="/getFuelTypeList", method= RequestMethod.GET)
+	public List<String> getFuelTypeList(){
+		return null;
+	}
+	
+	
+	@RequestMapping(value="/getDriveTypeList", method= RequestMethod.GET)
+	public List<String> getDriveTypeList(){
+		return null;
+	}
+	
+	
+	@RequestMapping(value="/getMakeList", method= RequestMethod.GET)
+	public List<String> getMakeList(){
+		return null;
+	}
+	
+	
+	
 	
 	
 //	@RequestMapping(value="/getAll",method=RequestMethod.GET){

@@ -10,7 +10,7 @@ public class SearchFormVehicleData {
 //	private String mechData;
 	private String driveType;
 	private Double displacementLow;
-	private Double displacementhigh;
+	private Double displacementHigh;
 	private String transmissionType;
 	private String fuelType;
 //	private EpaData epaData;
@@ -22,13 +22,14 @@ public class SearchFormVehicleData {
 	private Double highwayMpgLow;
 	private Double highwayMpgHigh;
 	private Double averageMpgHigh;
+	private Double averageMpgLow;
 	
 	public SearchFormVehicleData(){}
 	
 	public SearchFormVehicleData(Integer yearLow, Integer yearHigh, String model, String make, String driveType,
-			Double displacementLow, Double displacementhigh, String transmissionType, String fuelType,
+			Double displacementLow, Double displacementHigh, String transmissionType, String fuelType,
 			Double cityMpgLow, Double cityMpgHigh, Boolean hasGasTax, Double emissionsLow, Double emissionsHigh,
-			Double highwayMpgLow, Double highwayMpgHigh, Double averageMpgHigh) {
+			Double highwayMpgLow, Double highwayMpgHigh, Double averageMpgHigh, Double averageMpgLow) {
 		super();
 		this.yearLow = yearLow;
 		this.yearHigh = yearHigh;
@@ -36,7 +37,7 @@ public class SearchFormVehicleData {
 		this.make = make;
 		this.driveType = driveType;
 		this.displacementLow = displacementLow;
-		this.displacementhigh = displacementhigh;
+		this.displacementHigh = displacementHigh;
 		this.transmissionType = transmissionType;
 		this.fuelType = fuelType;
 		this.cityMpgLow = cityMpgLow;
@@ -47,6 +48,7 @@ public class SearchFormVehicleData {
 		this.highwayMpgLow = highwayMpgLow;
 		this.highwayMpgHigh = highwayMpgHigh;
 		this.averageMpgHigh = averageMpgHigh;
+		this.averageMpgLow = averageMpgLow;
 	}
 
 	public Integer getYearLow() {
@@ -97,12 +99,12 @@ public class SearchFormVehicleData {
 		this.displacementLow = displacementLow;
 	}
 
-	public Double getDisplacementhigh() {
-		return displacementhigh;
+	public Double getDisplacementHigh() {
+		return displacementHigh;
 	}
 
-	public void setDisplacementhigh(Double displacementhigh) {
-		this.displacementhigh = displacementhigh;
+	public void setDisplacementHigh(Double displacementHigh) {
+		this.displacementHigh = displacementHigh;
 	}
 
 	public String getTransmissionType() {
@@ -183,6 +185,25 @@ public class SearchFormVehicleData {
 
 	public void setAverageMpgHigh(Double averageMpgHigh) {
 		this.averageMpgHigh = averageMpgHigh;
+	}
+
+	public Double getAverageMpgLow() {
+		return averageMpgLow;
+	}
+
+	public void setAverageMpgLow(Double averageMpgLow) {
+		this.averageMpgLow = averageMpgLow;
+	}
+
+	@Override
+	public String toString() {
+		return "SearchFormVehicleData [yearLow=" + yearLow + ", yearHigh=" + yearHigh + ", model=" + model + ", make="
+				+ make + ", driveType=" + driveType + ", displacementLow=" + displacementLow + ", displacementHigh="
+				+ displacementHigh + ", transmissionType=" + transmissionType + ", fuelType=" + fuelType
+				+ ", cityMpgLow=" + cityMpgLow + ", cityMpgHigh=" + cityMpgHigh + ", hasGasTax=" + hasGasTax
+				+ ", emissionsLow=" + emissionsLow + ", emissionsHigh=" + emissionsHigh + ", highwayMpgLow="
+				+ highwayMpgLow + ", highwayMpgHigh=" + highwayMpgHigh + ", averageMpgHigh=" + averageMpgHigh
+				+ ", averageMpgLow=" + averageMpgLow + "]";
 	}
 	
 	
