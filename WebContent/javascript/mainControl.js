@@ -41,16 +41,39 @@ $(document).ready(function() {
 	
 	var iterateSearchResults = function(data){
 		var searchResults = data;
+		var $resultBody = $("#resultBody");
 		for(var i = 0; i < searchResults.length; i++){
+			console.log(i);
 			var result = $.parseJSON(searchResults[i]);
-			var resultId = result._id;
+			var resultId = result._id.$oid;
 			var year = result.year;
 			var make = result.make;
 			var model = result.model;
+			console.log(resultId + " "+year+" "+make+" "+model);
+//			var mechData = "<div id="+resultId+"_MechData></div>";
+			var mechDataButton = "<button id='ShowMechData_"+resultId+"' vid='"+resultId+"'>Show Mech Data</button>";
 			
+			var singleResultBody = "<div vid='"+resultId+"' id='singleResultBody_"+resultId+"'>"+year + "  " + make  + "  "  + model +"</div>";
+			$resultBody.append(singleResultBody);
+			var $singleResultBody = $("#singleResultBody_"+resultId);
+//			$singeResultBody.append("<div id="+resultId+ ">"+year + "  " + make  + "  "  + model +"</div>");	
+			$singleResultBody.append(mechDataButton);
+			var $mechDataButton = $("#ShowMechData_"+resultId); //this is only selecting the last one for some reason
+			$mechDataButton.on("click",function(){
+				var $parent = $mechDataButton.parent()
+				console.log("clickcillkj");
+				console.log($parent);
+				console.log("id clicked: " + $parent.attr("vid"));
+			})
 			
-			$resultBody = $("#resultBody");
-			$resultBody.append("<div id="+resultId+ ">"+year + "  " + make  + "  "  + model +"</div>");
+//			$resultBody.load(function(){
+//				$("#ShowMechData_"+resultId).on("click",function(){
+//					//switch to show mech data
+//					console.log('show mech data' + resultId);
+//				});
+//				
+//			})
+			
 		}
 		
 	}
