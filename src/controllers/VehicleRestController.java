@@ -98,8 +98,6 @@ public class VehicleRestController {
 			System.out.println(string);
 		}
 		
-		
-		
 		return resultList;
 		
 	}
