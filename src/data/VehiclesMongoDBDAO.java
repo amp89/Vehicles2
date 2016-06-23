@@ -2,6 +2,8 @@ package data;
 
 import static com.mongodb.client.model.Projections.fields;
 import static com.mongodb.client.model.Projections.include;
+import static com.mongodb.client.model.Projections.exclude;
+import static com.mongodb.client.model.Projections.excludeId;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -408,21 +410,40 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 	}
 
 	@Override
-	public String getVehicleImage() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getVehicleImage(String id) {
+		ImageScraper is = new ImageScraper();
+		
+		Document vehicleDocument = vehicleCollection.find().projection(include("year","make","model")).first();
+		int year = (int) vehicleDocument.get("year");
+		String make = vehicleDocument.get("make").toString();
+		String model = vehicleDocument.get("model").toString();
+		
+		String imageLink = is.scrapeStuff(year, make, model);
+		System.out.println("DAO: " + imageLink);
+		String imageJSON = "{\"imageLink\":\""+imageLink+"\"}";
+		return imageJSON;
+
 	}
 
 	@Override
-	public String getMechData() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getMechData(String id) {
+		System.out.println(id);
+		
+		ObjectId oid = new ObjectId(id);
+		Document mechData = vehicleCollection.find(Filters.eq("_id", oid)).projection(fields(include("mechData"),exclude("_id"))).first();
+		System.out.println(mechData.toJson());
+		return mechData.toJson();
 	}
 
 	@Override
-	public String getEpaData() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getEpaData(String id) {
+		System.out.println(id);
+		
+		ObjectId oid = new ObjectId(id);
+		Document epaData = vehicleCollection.find(Filters.eq("_id", oid)).projection(fields(include("epaData"),exclude("_id"))).first();
+		System.out.println(epaData.toJson());
+		return epaData.toJson();
+
 	}
 
 	//get lists
@@ -440,9 +461,6 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 		Set<String> resultSet = new TreeSet<>();
 		while(resultCursor.hasNext()){
 			Document result = resultCursor.next();
-//			String transmissionTypeString = resultCursor.
-//			resultList.add(result.getString(key));
-//			resultSet.add(result.toJson());
 			Document mechData = (Document) result.get("mechData");
 			String transmissionTypeString =  mechData.get("transmissionType").toString();
 			if(!transmissionTypeString.equals("")){
@@ -453,8 +471,59 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 		
 	}
 	
+	@Override
+	public Set<String> getFuelTypeList(){
+		MongoCursor<Document> resultCursor = vehicleCollection.find().projection(include("mechData.fuelType")).iterator();
+		List<String> resultList = new ArrayList();
+		Set<String> resultSet = new TreeSet<>();
+		while(resultCursor.hasNext()){
+			Document result = resultCursor.next();
+			Document mechData = (Document) result.get("mechData");
+			String fuelTypeString =  mechData.get("fuelType").toString();
+			if(!fuelTypeString.equals("")){
+				resultSet.add(mechData.get("fuelType").toString());
+			}
+		}
+		return resultSet;
+		
+	}
+	
+	@Override
+	public Set<String> getDriveTypeList(){
+		MongoCursor<Document> resultCursor = vehicleCollection.find().projection(include("mechData.driveType")).iterator();
+		List<String> resultList = new ArrayList();
+		Set<String> resultSet = new TreeSet<>();
+		while(resultCursor.hasNext()){
+			Document result = resultCursor.next();
+			Document mechData = (Document) result.get("mechData");
+			String driveTypeString =  mechData.get("driveType").toString();
+			if(!driveTypeString.equals("")){
+				resultSet.add(mechData.get("driveType").toString());
+			}
+		}
+		return resultSet;
+		
+	}
 	
 	
+	@Override
+	public Set<String> getMakeList(){
+		MongoCursor<Document> resultCursor = vehicleCollection.find().projection(include("make")).iterator();
+		List<String> resultList = new ArrayList();
+		Set<String> resultSet = new TreeSet<>();
+		while(resultCursor.hasNext()){
+			Document result = resultCursor.next();
+			Document mechData = (Document) result.get("mechData");
+			String make =  result.get("make").toString();
+			if(!make.equals("")){
+				resultSet.add(make);
+			}
+		}
+		return resultSet;
+		
+		
+		
+	}
 	
 	@Override
 	public String updateVehicle(VehicleFormData vfd) {

@@ -50,16 +50,18 @@ public interface VehiclesDAO {
 	/*
 	 * get set of attributes
 	 */
-	public String getVehicleImage();
-	public String getMechData();
-	public String getEpaData();
+	public String getVehicleImage(String id);
+	public String getMechData(String id);
+	public String getEpaData(String id);
 	
 	/*
 	 * get model list by make
 	 */
 	public List<String> getModelListByMake(String make);
 	public Set<String> getTransmissionTypeList();
-	
+	public Set<String> getFuelTypeList();
+	public Set<String> getDriveTypeList();
+	public Set<String> getMakeList();
 	
 	/*
 	 * update vehicle

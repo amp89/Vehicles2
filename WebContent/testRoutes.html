@@ -69,8 +69,9 @@ averageMpgLow<input type="text" name="averageMpgLow" /><br>
 <button id="getFuelTypeList">getFuelTypeList</button><br>
 <button id="getDriveTypeList">getDriveTypeList</button><br>
 <button id="getMakeList">getMakeList</button><br>
-<button id="getEpaData">getEpaData</button><br>
-<button id="getImage">getmodellist</button><br>
+<button id="getEpaData">57699c9224f8740258137919 getEpaData</button><br>
+<button id="getMechData">57699c9224f8740258137919 getMechData</button><br>
+<button id="getImage">57699c9224f8740258137919 getImage</button><br>
 
 
 
@@ -306,34 +307,73 @@ averageMpgLow<input type="text" name="averageMpgLow" /><br>
  			event.preventDefault();
 		 $.getJSON("rest/getTransmissionTypeList",null,function(data){
 				 console.log(data);
+				 console.log(data[0]);
 			 },'json');
  		
  		});
  
  
  		$("#getFuelTypeList").on("click",function(event){event.preventDefault();
- 		
+		 $.getJSON("rest/getFuelTypeList",null,function(data){
+			 console.log(data);
+			 console.log(data[0]);
+		 },'json');
+		
  		});
  
  
  		$("#getDriveTypeList").on("click",function(event){event.preventDefault();
+		 $.getJSON("rest/getDriveTypeList",null,function(data){
+			 console.log(data);
+			 console.log(data[0]);
+		 },'json');
  		
  		});
  
  
  		$("#getMakeList").on("click",function(event){event.preventDefault();
+		 $.getJSON("rest/getMakeList",null,function(data){
+			 console.log(data);
+			 console.log(data[0]);
+		 },'json');
  		
  		
  		});
  
- 
- 		$("#getEpaData").on("click",function(event){event.preventDefault();
+ 		//57699c9224f8740258137919
+ 		$("#getEpaData").on("click",function(event){
+ 			var oid = '57699c9224f8740258137919';
+ 			event.preventDefault();
+		 $.getJSON("rest/getEpaData/" + oid ,null,function(data){
+			 console.log(data);
+			 console.log(data[0]);
+		 },'json');
  		
  		});
  
  
  		$("#getImage").on("click",function(event){event.preventDefault();
+ 			console.log("getImage clicked");
  		
+ 			var oid = '57699c9224f8740258137919';
+ 			event.preventDefault();
+		 $.getJSON("rest/getImage/" + oid ,null,function(data){
+			 console.log("got an image");
+			 console.log(data);
+			 console.log(data.imageLink);
+			 console.log(data[0]);
+		 },'json');
+ 		
+ 		
+ 		});
+ 		
+ 		$("#getMechData").on("click",function(event){event.preventDefault();
+ 			var oid = '57699c9224f8740258137919';
+ 			event.preventDefault();
+		 $.getJSON("rest/getMechData/" + oid ,null,function(data){
+			 console.log(data);
+			 console.log(data[0]);
+		 },'json');
  		
  		});
  

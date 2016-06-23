@@ -123,37 +123,44 @@ public class VehicleRestController {
 	
 	
 	@RequestMapping(value="/getFuelTypeList", method= RequestMethod.GET)
-	public List<String> getFuelTypeList(){
-		return null;
+	public Set<String> getFuelTypeList(){
+		Set<String> result = dao.getFuelTypeList();
+		return result;
 	}
 	
 	
 	@RequestMapping(value="/getDriveTypeList", method= RequestMethod.GET)
-	public List<String> getDriveTypeList(){
-		return null;
+	public Set<String> getDriveTypeList(){
+		Set<String> result = dao.getDriveTypeList();
+		return result;
 	}
 	
 	
 	@RequestMapping(value="/getMakeList", method= RequestMethod.GET)
-	public List<String> getMakeList(){
-		return null;
+	public Set<String> getMakeList(){
+		Set<String> result = dao.getMakeList();
+		return result;
 	}
 	
 	//data for individual vehicles
 	
 	@RequestMapping(value="/getMechData/{id}", method= RequestMethod.GET)
-	public List<String> getMechData(@PathVariable String id){
-		return null;
+	public String getMechData(@PathVariable String id){
+		System.out.println("GETTING MECH DATA FOR: " + id);
+		return dao.getMechData(id);
 	}
 	
 	@RequestMapping(value="/getEpaData/{id}", method= RequestMethod.GET)
-	public List<String> getEpaData(@PathVariable String id){
-		return null;
+	public String getEpaData(@PathVariable String id){
+		System.out.println("GETTING MECH DATA FOR: " + id);
+		return dao.getEpaData(id);
 	}
 	
-	@RequestMapping(value="/getImage/{make}/{model}", method= RequestMethod.GET)
-	public List<String> getImage(@PathVariable String make,@PathVariable String model){
-		return null;
+	@RequestMapping(value="/getImage/{id}", method= RequestMethod.GET)
+	public String getImage(@PathVariable String id){
+		String image =  dao.getVehicleImage(id);
+		System.out.println("controller: " + image);
+		return image;
 	}
 	
 	
