@@ -296,7 +296,13 @@ averageMpgLow<input type="text" name="averageMpgLow" /><br>
  */
 	 	
  		$("#getModelList").on("click",function(event){
+ 			var make = "ford";
+ 			console.log("for : " + make);
  			event.preventDefault();
+		 $.getJSON("rest/getModelList/" + make,null,function(data){
+				 console.log(data);
+				 console.log(data[0]);
+			 },'json');
 
  			
  		});

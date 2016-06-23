@@ -450,8 +450,14 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 	
 	@Override
 	public List<String> getModelListByMake(String make) {
-		// TODO Auto-generated method stub
-		return null;
+		MongoCursor<Document> cursor = vehicleCollection.find(Filters.eq("make", Pattern.compile(".*" + make.trim().toLowerCase() + "*.", Pattern.CASE_INSENSITIVE))).iterator();
+		List<String> modelList = new ArrayList<>();
+		while(cursor.hasNext()){
+			Document document = cursor.next();
+			String model = document.get("model").toString();
+			modelList.add(model);
+		}
+		return modelList;
 	}
 
 	@Override

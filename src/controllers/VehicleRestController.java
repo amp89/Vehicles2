@@ -108,8 +108,12 @@ public class VehicleRestController {
 	
 	@RequestMapping(value="/getModelList/{make}", method= RequestMethod.GET)
 	public List<String> getModelListByMake(@PathVariable String make){
-	
-		return null;
+		System.out.println("GETTING MODEL LIST NOW ");
+		List<String> modelList =  dao.getModelListByMake(make);
+		for (String string : modelList) {
+			System.out.println(string);
+		}
+		return modelList;
 		
 	}
 	
