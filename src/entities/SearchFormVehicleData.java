@@ -11,6 +11,8 @@ public class SearchFormVehicleData {
 	private String driveType;
 	private Double displacementLow;
 	private Double displacementHigh;
+	private Integer cylindersLow;
+	private Integer cylindersHigh;
 	private String transmissionType;
 	private String fuelType;
 //	private EpaData epaData;
@@ -29,7 +31,7 @@ public class SearchFormVehicleData {
 	public SearchFormVehicleData(Integer yearLow, Integer yearHigh, String model, String make, String driveType,
 			Double displacementLow, Double displacementHigh, String transmissionType, String fuelType,
 			Double cityMpgLow, Double cityMpgHigh, Boolean hasGasTax, Double emissionsLow, Double emissionsHigh,
-			Double highwayMpgLow, Double highwayMpgHigh, Double averageMpgHigh, Double averageMpgLow) {
+			Double highwayMpgLow, Double highwayMpgHigh, Double averageMpgHigh, Double averageMpgLow, Integer cylindersHigh, Integer cylindersLow) {
 		super();
 		this.yearLow = yearLow;
 		this.yearHigh = yearHigh;
@@ -49,6 +51,8 @@ public class SearchFormVehicleData {
 		this.highwayMpgHigh = highwayMpgHigh;
 		this.averageMpgHigh = averageMpgHigh;
 		this.averageMpgLow = averageMpgLow;
+		this.cylindersHigh = cylindersHigh;
+		this.cylindersLow = cylindersLow;
 	}
 
 	public Integer getYearLow() {
@@ -204,6 +208,22 @@ public class SearchFormVehicleData {
 				+ ", emissionsLow=" + emissionsLow + ", emissionsHigh=" + emissionsHigh + ", highwayMpgLow="
 				+ highwayMpgLow + ", highwayMpgHigh=" + highwayMpgHigh + ", averageMpgHigh=" + averageMpgHigh
 				+ ", averageMpgLow=" + averageMpgLow + "]";
+	}
+
+	public Integer getCylindersHigh() {
+		return cylindersHigh;
+	}
+
+	public void setCylindersHigh(Integer cylindersHigh) {
+		this.cylindersHigh = cylindersHigh;
+	}
+
+	public Integer getCylindersLow() {
+		return cylindersLow;
+	}
+
+	public void setCylindersLow(Integer cylindersLow) {
+		this.cylindersLow = cylindersLow;
 	}
 	
 	

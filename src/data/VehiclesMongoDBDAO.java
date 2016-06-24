@@ -242,16 +242,32 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 		if (sfvd.getDisplacementHigh() != null) {
 
 			BasicDBObject displacementLessThan = new BasicDBObject();
-			displacementLessThan.put("mechData.displacement", new BasicDBObject("$lte", sfvd.getDisplacementHigh()));
+			displacementLessThan.put("mechData.displacment", new BasicDBObject("$lte", sfvd.getDisplacementHigh()));
 			searchParamList.add(displacementLessThan);
 		}
 
 		if (sfvd.getDisplacementLow() != null) {
 
 			BasicDBObject displacementGreaterThan = new BasicDBObject();
-			displacementGreaterThan.put("mechData.displacement", new BasicDBObject("$gte", sfvd.getDisplacementLow()));
+			displacementGreaterThan.put("mechData.displacment", new BasicDBObject("$gte", sfvd.getDisplacementLow()));
 			searchParamList.add(displacementGreaterThan);
 		}
+		
+		
+		if (sfvd.getCylindersHigh() != null) {
+			
+			BasicDBObject cylindersLessThan = new BasicDBObject();
+			cylindersLessThan.put("mechData.cylinders", new BasicDBObject("$lte", sfvd.getCylindersHigh()));
+			searchParamList.add(cylindersLessThan);
+		}
+		
+		if (sfvd.getCylindersLow() != null) {
+			
+			BasicDBObject cylindersGreaterThan = new BasicDBObject();
+			cylindersGreaterThan.put("mechData.cylinders", new BasicDBObject("$gte", sfvd.getCylindersLow()));
+			searchParamList.add(cylindersGreaterThan);
+		}
+		
 
 		if (!sfvd.getTransmissionType().equals("")) {
 
@@ -566,7 +582,7 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 		vehicleDataMap.put("model", vfd.getModel().trim());
 		Map<String, Object> mechDataMap = new HashMap<>();
 		mechDataMap.put("driveType", vfd.getDriveType().trim());
-		mechDataMap.put("displacement", vfd.getDisplacement());
+		mechDataMap.put("displacment", vfd.getDisplacment());
 		mechDataMap.put("transmissionType", vfd.getTransmissionType().trim());
 		mechDataMap.put("fuelType", vfd.getFuelType().trim());
 
@@ -592,10 +608,10 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 		vehicleDataMap.put("model", vfd.getModel().trim());
 		Map<String, Object> mechDataMap = new HashMap<>();
 		mechDataMap.put("driveType", vfd.getDriveType().trim());
-		mechDataMap.put("displacement", vfd.getDisplacement());
+		mechDataMap.put("displacment", vfd.getDisplacment());
 		mechDataMap.put("transmissionType", vfd.getTransmissionType().trim());
 		mechDataMap.put("fuelType", vfd.getFuelType().trim());
-
+		mechDataMap.put("cylinders", vfd.getCylinders());
 		Map<String, Object> epaDataMap = new HashMap<>();
 		epaDataMap.put("cityMpg", vfd.getCityMpg());
 		epaDataMap.put("highwayMpg", vfd.getHighwayMpg());

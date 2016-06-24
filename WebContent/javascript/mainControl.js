@@ -18,15 +18,18 @@ $(document).ready(function() {
 				$updateForm.append("Model<input type='text' name = 'model' value='"+data.model+"'/><br>");
 				$updateForm.append("Make<input type='text' name = 'make' value='"+data.make+"'/><br>");
 				$updateForm.append("DriveType <input type='text' name = 'driveType' value='"+data.mechData.driveType+"'/><br>");
-				$updateForm.append("Displacement <input type='text' name = 'displacement' value='"+data.mechData.displacment+"'/><br>");
+				$updateForm.append("Displacement <input type='text' name = 'displacment' value='"+data.mechData.displacment +"'/><br>");
+				$updateForm.append("Cylinders <input type='text' name = 'cylinders' value='"+data.mechData.cylinders+"'/><br>");
 				$updateForm.append("Trans Type<input type='text' name = 'transmissionType' value='"+data.mechData.transmissionType+"'/><br>");
 				$updateForm.append("Fuel Type<input type='text' name = 'fuelType' value='"+data.mechData.fuelType+"'/><br>");
 				$updateForm.append("City Mpg<input type='text' name = 'cityMpg' value='"+data.epaData.cityMpg+"'/><br>");
 				$updateForm.append("HighwayMpg <input type='text' name = 'highwayMpg' value='"+data.epaData.highwayMpg+"'/><br>");
 				$updateForm.append("Gas Tax<input type='text' name = 'hasGasTax' value='"+data.epaData.hasGasTax+"'/><br>");
+				
 				$updateForm.append("Emissions <input type='text' name = 'emissions' value='"+data.epaData.emissions+"'/><br>");
-//				$updateForm.append("<input type='text' name = 'averageMpg' value='"+data.epaData.averageMpg+"'/><br>");
-				$updateForm.append("<button id=\"submitModifiactions\">Submit New Vehicle</button>");
+				//TODO change this so that it calculates on submission
+				$updateForm.append("<input type='text' name = 'averageMpg' value='"+data.epaData.averageMpg+"'/><br>");
+				$updateForm.append("<button id=\"submitModifiactions\">Submit Modification</button>");
 				
 				$("#submitModifiactions").on('click',function(event){
 					event.preventDefault();
@@ -113,6 +116,7 @@ $(document).ready(function() {
 			var epaDataButton = "<button id='ShowEpaData_"+resultId+"' vid='"+resultId+"'>Show Epa Data</button>";
 			var imageButton = "<button id='ShowImage_"+resultId+"' vid='"+resultId+"'>Show Image</button>";
 			var modifyButton = "<button id='Modify_"+resultId+"' vid='"+resultId+"'>Modify</button>";
+			var deleteButton = "<button id='Delete_"+resultId+"' vid='"+resultId+"'>Delete</button>";
 			console.log(mechDataButton);
 			var singleResultBody = "<div vid='"+resultId+"' id='singleResultBody_"+resultId+"'>"+year + "  " + make  + "  "  + model + mechDataButton +epaDataButton + imageButton + modifyButton +"</div>";
 			$resultBody.append(singleResultBody);
@@ -123,6 +127,14 @@ $(document).ready(function() {
 				var vidNumber = event.target.attributes[1].nodeValue;
 				console.log('midify');
 				modifyFormLoad(vidNumber);
+			});
+			$deleteButton = $("#Delete_"+resultId);
+			$deleteButton.on('click',function(event){
+				event.preventDefault();
+				console.log(event);
+				var vidNumber = event.target.attributes[1].nodeValue;
+				console.log('delete time');
+				
 			});
 			var $singleResultBody = $("#singleResultBody_"+resultId);
 //			$singeResultBody.append("<div id="+resultId+ ">"+year + "  " + make  + "  "  + model +"</div>");	

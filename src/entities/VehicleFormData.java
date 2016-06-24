@@ -8,7 +8,8 @@ public class VehicleFormData {
 	private String make;
 //	private String mechData;
 	private String driveType;
-	private double displacement;
+	private double displacment;
+	private int cylinders;
 	private String transmissionType;
 	private String fuelType;
 //	private EpaData epaData;
@@ -24,14 +25,14 @@ public class VehicleFormData {
 
 	public VehicleFormData(int year, String model, String make, String driveType, double displacement,
 			String transmissionType, String fuelType, double cityMpg, boolean hasGasTax, double emissions,
-			double highwayMpg) {
+			double highwayMpg, int cylinders) {
 		super();
 //		this.id = id;
 		this.year = year;
 		this.model = model;
 		this.make = make;
 		this.driveType = driveType;
-		this.displacement = displacement;
+		this.displacment = displacement;
 		this.transmissionType = transmissionType;
 		this.fuelType = fuelType;
 		this.cityMpg = cityMpg;
@@ -39,6 +40,7 @@ public class VehicleFormData {
 		this.emissions = emissions;
 		this.highwayMpg = highwayMpg;
 		this.averageMpg = (highwayMpg + cityMpg) / 2.0;
+		this.cylinders = cylinders;
 	}
 
 	public String getId() {
@@ -81,12 +83,12 @@ public class VehicleFormData {
 		this.driveType = driveType;
 	}
 
-	public double getDisplacement() {
-		return displacement;
+	public double getDisplacment() {
+		return displacment;
 	}
 
-	public void setDisplacement(double displacement) {
-		this.displacement = displacement;
+	public void setDisplacment(double displacement) {
+		this.displacment = displacement;
 	}
 
 	public String getTransmissionType() {
@@ -148,9 +150,17 @@ public class VehicleFormData {
 	@Override
 	public String toString() {
 		return "VehicleFormData [id=" + id + ", year=" + year + ", model=" + model + ", make=" + make + ", driveType="
-				+ driveType + ", displacement=" + displacement + ", transmissionType=" + transmissionType
+				+ driveType + ", displacement=" + displacment + ", transmissionType=" + transmissionType
 				+ ", fuelType=" + fuelType + ", cityMpg=" + cityMpg + ", hasGasTax=" + hasGasTax + ", emissions="
 				+ emissions + ", highwayMpg=" + highwayMpg + ", averageMpg=" + averageMpg + "]";
+	}
+
+	public int getCylinders() {
+		return cylinders;
+	}
+
+	public void setCylinders(int cylinders) {
+		this.cylinders = cylinders;
 	}
 	
 	
