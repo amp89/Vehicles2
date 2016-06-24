@@ -412,8 +412,8 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 	@Override
 	public String getVehicleImage(String id) {
 		ImageScraper is = new ImageScraper();
-		
-		Document vehicleDocument = vehicleCollection.find().projection(include("year","make","model")).first();
+		ObjectId oid = new ObjectId(id);
+		Document vehicleDocument = vehicleCollection.find(Filters.eq("_id",oid)).projection(include("year","make","model")).first();
 		int year = (int) vehicleDocument.get("year");
 		String make = vehicleDocument.get("make").toString();
 		String model = vehicleDocument.get("model").toString();
