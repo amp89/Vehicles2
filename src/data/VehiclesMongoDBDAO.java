@@ -544,6 +544,19 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 
 		return "Updated";
 	}
+	
+	
+	@Override
+	public String addVehicle(VehicleFormData vfd) {
+		
+		Document convertedVehicle = convertFormDataToDocument(vfd);
+		System.out.println("new: " + convertedVehicle);
+		
+		vehicleCollection.insertOne(convertedVehicle);
+		return "Updated";
+	}
+	
+	
 
 	private Document convertFormDataToDocument(VehicleFormData vfd) {
 		Map<String, Object> vehicleDataMap = new HashMap<>();

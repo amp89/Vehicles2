@@ -4,6 +4,64 @@ $(document).ready(function() {
 	var $mainDiv = $("#main");
 	var $resultBody = $("#resultBody");
 	// html forms
+	var modifyFormLoad = function(vid){
+		$mainDiv.empty();
+		$resultBody.empty();
+		$mainDiv.load("htmlParts/modifyForm.html",null,function(){
+			
+			var idNumber = vid;
+			var $updateForm = $("#modifyForm")
+			$.getJSON("rest/getOneVehicle/" + idNumber,null,function(data){
+				console.log("wowowowow" + data);
+				$updateForm.append("<input type='hidden' name = 'id' value='"+data._id.$oid+"'/><br>");
+				$updateForm.append("Year <input type='text' name = 'year' value='"+data.year+"'/><br>");
+				$updateForm.append("Model<input type='text' name = 'model' value='"+data.model+"'/><br>");
+				$updateForm.append("Make<input type='text' name = 'make' value='"+data.make+"'/><br>");
+				$updateForm.append("DriveType <input type='text' name = 'driveType' value='"+data.mechData.driveType+"'/><br>");
+				$updateForm.append("Displacement <input type='text' name = 'displacement' value='"+data.mechData.displacment+"'/><br>");
+				$updateForm.append("Trans Type<input type='text' name = 'transmissionType' value='"+data.mechData.transmissionType+"'/><br>");
+				$updateForm.append("Fuel Type<input type='text' name = 'fuelType' value='"+data.mechData.fuelType+"'/><br>");
+				$updateForm.append("City Mpg<input type='text' name = 'cityMpg' value='"+data.epaData.cityMpg+"'/><br>");
+				$updateForm.append("HighwayMpg <input type='text' name = 'highwayMpg' value='"+data.epaData.highwayMpg+"'/><br>");
+				$updateForm.append("Gas Tax<input type='text' name = 'hasGasTax' value='"+data.epaData.hasGasTax+"'/><br>");
+				$updateForm.append("Emissions <input type='text' name = 'emissions' value='"+data.epaData.emissions+"'/><br>");
+//				$updateForm.append("<input type='text' name = 'averageMpg' value='"+data.epaData.averageMpg+"'/><br>");
+				$updateForm.append("<button id=\"submitModifiactions\">Submit New Vehicle</button>");
+				
+				$("#submitModifiactions").on('click',function(event){
+					event.preventDefault();
+					//TODO actual submission here
+					var $formValues = $updateForm.serializeArray();
+					 
+					 var object = {}
+					 $.each($formValues,function(){
+						 object[this.name] = this.value;
+					 });
+					 
+					 var updateToSubmit = JSON.stringify(object);
+					 
+					 
+					 $.ajax({
+						 type:"put",
+						 url:"rest/updateVehicle",
+						 contentType : 'application/json; charset=utf-8',
+						 data:updateToSubmit,
+						 //dataType:"json"
+						 dataType:"text"
+					 }).done(function(data){
+						 console.log(data);
+						 //nothing actually comes here
+					 }).fail(function(){
+						 console.log("update failed");
+					 });
+				});
+				
+			},'json');
+			
+			
+		});
+	};
+	
 	var doSearch = function() {
 		// ajax call with a callback to load data
 
@@ -54,9 +112,18 @@ $(document).ready(function() {
 			var mechDataButton = "<button id='ShowMechData_"+resultId+"' vid='"+resultId+"'>Show Mech Data</button>";
 			var epaDataButton = "<button id='ShowEpaData_"+resultId+"' vid='"+resultId+"'>Show Epa Data</button>";
 			var imageButton = "<button id='ShowImage_"+resultId+"' vid='"+resultId+"'>Show Image</button>";
+			var modifyButton = "<button id='Modify_"+resultId+"' vid='"+resultId+"'>Modify</button>";
 			console.log(mechDataButton);
-			var singleResultBody = "<div vid='"+resultId+"' id='singleResultBody_"+resultId+"'>"+year + "  " + make  + "  "  + model + mechDataButton +epaDataButton + imageButton + "</div>";
+			var singleResultBody = "<div vid='"+resultId+"' id='singleResultBody_"+resultId+"'>"+year + "  " + make  + "  "  + model + mechDataButton +epaDataButton + imageButton + modifyButton +"</div>";
 			$resultBody.append(singleResultBody);
+			$modifyButton = $("#Modify_"+resultId);
+			$modifyButton.on('click',function(event){
+				event.preventDefault();
+				console.log(event);
+				var vidNumber = event.target.attributes[1].nodeValue;
+				console.log('midify');
+				modifyFormLoad(vidNumber);
+			});
 			var $singleResultBody = $("#singleResultBody_"+resultId);
 //			$singeResultBody.append("<div id="+resultId+ ">"+year + "  " + make  + "  "  + model +"</div>");	
 			var $mechDataButton = $("#ShowMechData_"+resultId); //this is only selecting the last one for some reason
@@ -144,9 +211,6 @@ $(document).ready(function() {
 		
 	}
 
-	var addNew = function() {
-		// ajax call w/ callback to load data
-	}
 
 	$("#searchButton").on('click', function(event) {
 		event.preventDefault();
@@ -163,6 +227,15 @@ $(document).ready(function() {
 				doSearch();
 				
 			});
+			$("#resetSearch").on('click',function(event){
+				event.preventDefault();
+				var $searchForm = $("#searchForm");
+				$searchForm[0].reset();
+				console.log("resetting the search");
+//				$mainDiv.empty();
+				$resultBody.empty();
+				
+			});
 			
 		});
 		
@@ -170,21 +243,65 @@ $(document).ready(function() {
 	});
 	
 	
+	
 	$("#addButton").on('click', function(event) {
 		event.preventDefault();
 		$mainDiv.empty();
 		$resultBody.empty();
-		$mainDiv.load("htmlParts/addForm.html");
-		
-		$("#submitNew").on('click', function(event) {
-			event.preventDefault();
-			console.log("new submitted");
-			addNew();
+		$mainDiv.load("htmlParts/addForm.html",null,function(){
+			$("#submitNew").on('click', function(event) {
+				event.preventDefault();
+				console.log("new submitted");
+				addNew();
+				
+			});
+			
 			
 		});
-		
 	});
 	
+	var addNew = function() {
+		// ajax call w/ callback to load data
+		 var object = {};
+		 var $formValues = $("#addForm").serializeArray();
+		 $.each($formValues,function(){
+			 object[this.name] = this.value;
+		 });
+		 
+		 var objectToPost = JSON.stringify(object);
+		
+		 $.ajax({
+			 type:"post",
+			 url:"rest/testVehiclePost",
+			 contentType : 'application/json; charset=utf-8',
+			 data:objectToPost,
+			 //dataType:"json"
+			 dataType:"text"
+		 }).done(function(data){
+			 console.log("data");
+			 //nothing actually comes here
+			 //TODO make this go to modify page directly
+		 }).fail(function(){
+			 console.log('oops');
+		 });
+	}
 	
+//	
+//	$("#addButton").on('click', function(event) {
+//		event.preventDefault();
+//		$mainDiv.empty();
+//		$resultBody.empty();
+//		$mainDiv.load("htmlParts/addForm.html",null,function(){
+//			$("#submitNew").on('click', function(event) {
+//				event.preventDefault();
+//				console.log("new submitted");
+//				addNew();
+//				
+//			});
+//			
+//			
+//		});
+//	});
+
 
 });

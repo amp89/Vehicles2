@@ -67,6 +67,8 @@ public interface VehiclesDAO {
 	 * update vehicle
 	 */
 	public String updateVehicle(VehicleFormData vfd);
+	public String addVehicle(VehicleFormData vfd);
+	
 	/*
 	 * 
 	 */

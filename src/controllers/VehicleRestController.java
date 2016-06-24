@@ -77,6 +77,7 @@ public class VehicleRestController {
 	public String testVehiclePost(@RequestBody VehicleFormData vfd){
 		System.out.println("in test vehicle POSTTTT");
 		System.out.println(vfd);
+		dao.addVehicle(vfd);
 		//TODO add add v to dao
 		return "vehicle added";
 	}
