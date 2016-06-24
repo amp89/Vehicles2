@@ -221,7 +221,8 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 		if (!sfvd.getModel().equals("")) {
 			BasicDBObject model = new BasicDBObject();
 			model.put("model",
-					Pattern.compile(".*" + sfvd.getModel().trim().toLowerCase() + "*.", Pattern.CASE_INSENSITIVE));
+//					Pattern.compile(".*" + sfvd.getModel().trim().toLowerCase() + "*.", Pattern.CASE_INSENSITIVE));
+					Pattern.compile(sfvd.getModel().trim().toLowerCase(), Pattern.CASE_INSENSITIVE));
 			searchParamList.add(model);
 		}
 
@@ -467,7 +468,7 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 	@Override
 	public Set<String> getModelListByMake(String make) {
 		MongoCursor<Document> cursor = vehicleCollection.find(Filters.eq("make", Pattern.compile(".*" + make.trim().toLowerCase() + "*.", Pattern.CASE_INSENSITIVE))).iterator();
-		Set<String> modelList = new HashSet<>();
+		Set<String> modelList = new TreeSet<>();
 		while(cursor.hasNext()){
 			Document document = cursor.next();
 			String model = document.get("model").toString();

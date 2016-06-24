@@ -184,7 +184,7 @@ $(document).ready(function() {
                     $mechDivUL.append("<li>Fuel Type: " + mechData.fuelType + "</li>")
                     $mechDivUL.append("<li>Drive Type: " + mechData.driveType + "</li>")
                     $mechDivUL.append("<li>Transmission Type: " + mechData.transmissionType + "</li>")
-                    $mechDivUL.append("<li>Displacement: " + mechData.displacement + "</li>")
+                    $mechDivUL.append("<li>Displacement: " + mechData.displacment + "</li>")
                     $mechDivUL.append("<li>Cylinders: " + mechData.cylinders + "</li>")
                 }, 'json');
 
