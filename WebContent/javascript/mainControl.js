@@ -118,7 +118,7 @@ $(document).ready(function() {
 			var modifyButton = "<button id='Modify_"+resultId+"' vid='"+resultId+"'>Modify</button>";
 			var deleteButton = "<button id='Delete_"+resultId+"' vid='"+resultId+"'>Delete</button>";
 			console.log(mechDataButton);
-			var singleResultBody = "<div vid='"+resultId+"' id='singleResultBody_"+resultId+"'>"+year + "  " + make  + "  "  + model + mechDataButton +epaDataButton + imageButton + modifyButton +"</div>";
+			var singleResultBody = "<div vid='"+resultId+"' id='singleResultBody_"+resultId+"'>"+year + "  " + make  + "  "  + model + mechDataButton +epaDataButton + imageButton + modifyButton + deleteButton + "</div>";
 			$resultBody.append(singleResultBody);
 			$modifyButton = $("#Modify_"+resultId);
 			$modifyButton.on('click',function(event){
@@ -134,7 +134,32 @@ $(document).ready(function() {
 				console.log(event);
 				var vidNumber = event.target.attributes[1].nodeValue;
 				console.log('delete time');
-				
+				var idObject = {id:vidNumber}
+				 
+				 var idToDelete = JSON.stringify(idObject);
+				var $matchingResultBody =  $("#singleResultBody_"+vidNumber);
+				 $.ajax({
+					 type:"delete",
+					 url:"rest/deleteById/" + vidNumber,
+					 contentType : 'application/json; charset=utf-8',
+					 data:idToDelete,
+					 //dataType:"json"
+					 dataType:"json"
+				 }).done(function(data){
+					 console.log(data);
+					 //nothing actually comes here
+					 console.log("delteted");
+					 console.log(event);
+					 console.log(event.target);
+					 console.log(event.target.parent());
+					 event.target.parentNode.empty();
+					 $matchingResultBody.empty();
+				 }).fail(function(data){
+					 $matchingResultBody.empty();
+					 event.target.parentNode.empty();
+					 console.log(data);
+					 console.log("delete failed");
+				 });
 			});
 			var $singleResultBody = $("#singleResultBody_"+resultId);
 //			$singeResultBody.append("<div id="+resultId+ ">"+year + "  " + make  + "  "  + model +"</div>");	
@@ -274,6 +299,7 @@ $(document).ready(function() {
 	
 	var addNew = function() {
 		// ajax call w/ callback to load data
+		
 		 var object = {};
 		 var $formValues = $("#addForm").serializeArray();
 		 $.each($formValues,function(){
@@ -291,6 +317,8 @@ $(document).ready(function() {
 			 dataType:"text"
 		 }).done(function(data){
 			 console.log("data");
+				$mainDiv.empty();
+				$resultBody.empty();
 			 //nothing actually comes here
 			 //TODO make this go to modify page directly
 		 }).fail(function(){
