@@ -1,12 +1,12 @@
 package data;
 
+import static com.mongodb.client.model.Projections.exclude;
 import static com.mongodb.client.model.Projections.fields;
 import static com.mongodb.client.model.Projections.include;
-import static com.mongodb.client.model.Projections.exclude;
-import static com.mongodb.client.model.Projections.excludeId;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -465,12 +465,14 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 	//get lists
 	
 	@Override
-	public List<String> getModelListByMake(String make) {
+	public Set<String> getModelListByMake(String make) {
 		MongoCursor<Document> cursor = vehicleCollection.find(Filters.eq("make", Pattern.compile(".*" + make.trim().toLowerCase() + "*.", Pattern.CASE_INSENSITIVE))).iterator();
-		List<String> modelList = new ArrayList<>();
+		Set<String> modelList = new HashSet<>();
 		while(cursor.hasNext()){
 			Document document = cursor.next();
 			String model = document.get("model").toString();
+			System.out.println(document);
+			System.out.println("this model:" + model);
 			modelList.add(model);
 		}
 		return modelList;

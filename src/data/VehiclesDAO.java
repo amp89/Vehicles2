@@ -57,7 +57,7 @@ public interface VehiclesDAO {
 	/*
 	 * get model list by make
 	 */
-	public List<String> getModelListByMake(String make);
+	public Set<String> getModelListByMake(String make);
 	public Set<String> getTransmissionTypeList();
 	public Set<String> getFuelTypeList();
 	public Set<String> getDriveTypeList();
