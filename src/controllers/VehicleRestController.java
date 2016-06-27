@@ -1,6 +1,5 @@
 package controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -12,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import data.VehiclesDAO;
-import entities.EpaData;
-import entities.MechData;
 import entities.SearchFormVehicleData;
-import entities.Vehicle;
 import entities.VehicleFormData;
 
 @RestController
@@ -24,39 +20,8 @@ public class VehicleRestController {
 	@Autowired
 	private VehiclesDAO dao;
 	
-	//TODO test route
-	@RequestMapping("/hi")
-	public String sayHi(){
-		return dao.sayHi();
-	}
-	
-	//TODO test route
-	@RequestMapping("/test")
-	public List<String> test(){
-		return dao.test();
-	}
-	
-	//TODO test route
-	@RequestMapping("/testVehicle")
-		public Vehicle testVehicle(){
-		Vehicle v = new Vehicle();
-		v.setMechData(new MechData());
-		v.setEpaData(new EpaData());
 
-		return v;
-	}
-	
-	//TODO test route
-	@RequestMapping("/testVehcileList")
-	public List<Vehicle> testVehicleList(){
-		Vehicle v = new Vehicle();
-		v.setMechData(new MechData());
-		v.setEpaData(new EpaData());
-		List<Vehicle> vList = new ArrayList<>();
-		vList.add(v);
-		vList.add(v);
-		return vList;
-	}
+
 	
 	@RequestMapping(value = "/getOneVehicle/{id}", method = RequestMethod.GET)
 	public String getOneVehicle(@PathVariable String id){
@@ -69,7 +34,6 @@ public class VehicleRestController {
 	public String updateVehicle(@RequestBody VehicleFormData vfd){
 		System.out.println(vfd);
 		dao.updateVehicle(vfd);
-		//TODO add update dao
 		return "updated";
 	}
 	
@@ -78,7 +42,6 @@ public class VehicleRestController {
 		System.out.println("in test vehicle POSTTTT");
 		System.out.println(vfd);
 		dao.addVehicle(vfd);
-		//TODO add add v to dao
 		return "vehicle added";
 	}
 	
@@ -167,11 +130,6 @@ public class VehicleRestController {
 	}
 	
 	
-	
-	
-//	@RequestMapping(value="/getAll",method=RequestMethod.GET){
-//		
-//	}
 	
 	
 }

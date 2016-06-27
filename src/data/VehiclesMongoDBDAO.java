@@ -6,7 +6,6 @@ import static com.mongodb.client.model.Projections.include;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,11 +32,9 @@ import entities.VehicleFormData;
 
 public class VehiclesMongoDBDAO implements VehiclesDAO {
 
-	// final String DB_NAME = "vehicleTestOne";
 	final String DB_NAME = "vehicleTestTwo";
 	final String DB_ADDRESS = "mongodb://localhost:27017";
-	// final String CSV_FILE_NAME = "vehicle-specifications.csv";
-	final String COLLECTION_NAME = "vehicles";
+	final String COLLECTION_NAME = "newVehicles";
 
 	MongoDatabase db = null;
 	MongoClient mongoClient = null;
@@ -45,7 +42,7 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 
 	public VehiclesMongoDBDAO() {
 		super();
-		System.out.println("the dao is aliveeee");
+		System.out.println("DAO CREATED.");
 	}
 
 	@PostConstruct
@@ -55,7 +52,7 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 			mongoClient = new MongoClient(dbURL);
 			db = mongoClient.getDatabase(DB_NAME);
 			vehicleCollection = db.getCollection(COLLECTION_NAME);
-			System.out.println("CONNNNNECTED");
+			System.out.println("DB: " + DB_NAME + " COLELCTION: " + COLLECTION_NAME + " CONNECTED");
 
 		} catch (MongoException me) {
 			me.printStackTrace();
@@ -67,134 +64,19 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 
 		try {
 			mongoClient.close();
-			System.out.println("DISSSCONNNNEEECCCTTEEEEEDDD");
+			System.out.println("DB: " + DB_NAME + " COLELCTION: " + COLLECTION_NAME + " DISCONNECTED");
 		} catch (MongoException me) {
 			System.out.println(me);
 		}
 
 	}
 
-	// TODO test method
-	@Override
-	public String sayHi() {
-
-		return "{\"response\":\"hi!\"}";
-	}
-
-	// TODO test method
-	// i guess i have to make a method to load a document into a vehicle
-	@Override
-	public List<String> test() {
-		MongoCursor<Document> vCursor = vehicleCollection.find().iterator();
-		List<String> results = new ArrayList<>();
-		while (vCursor.hasNext()) {
-			results.add(vCursor.next().toJson());
-		}
-		return results;
-
-	}
-
-	@Override
-	public String getVehicles() {
-		// TODO Auto-generated method stub
-
-		return null;
-	}
-
-	@Override
-	public String getVehiclesById(String id) {
-		// TODO fix this to get multiples, or just delete it
-		System.out.println("get vehicles by id");
-		System.out.println(id);
-		ObjectId oid = new ObjectId(id);
-		System.out.println(oid);
-		Document vehicle = vehicleCollection.find(Filters.eq("_id", oid)).first();
-
-		// TODO Auto-generated method stub
-		return vehicle.toJson();
-	}
-
 	@Override
 	public String getVehicleById(String id) {
-		System.out.println("get vehicles by id");
-		System.out.println(id);
 		ObjectId oid = new ObjectId(id);
-		System.out.println(oid);
 		Document vehicle = vehicleCollection.find(Filters.eq("_id", oid)).first();
 
 		return vehicle.toJson();
-	}
-
-	@Override
-	public String getVehiclesByYearRange() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getVehiclesByMake() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getVehiclesByModel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getVehiclesByDriveType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getVehiclesByDisplacementRange() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getVehiclesByTransmission() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getVehiclesByCylinderRange() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getVehiclesByCylinders() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getVehiclesByFuelType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getVehiclesByMpgRange() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getVehiclesByEmissionsRange() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getVehiclesByGasTax() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -220,9 +102,7 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 
 		if (!sfvd.getModel().equals("")) {
 			BasicDBObject model = new BasicDBObject();
-			model.put("model",
-//					Pattern.compile(".*" + sfvd.getModel().trim().toLowerCase() + "*.", Pattern.CASE_INSENSITIVE));
-					Pattern.compile(sfvd.getModel().trim().toLowerCase(), Pattern.CASE_INSENSITIVE));
+			model.put("model", Pattern.compile(sfvd.getModel().trim().toLowerCase(), Pattern.CASE_INSENSITIVE));
 			searchParamList.add(model);
 		}
 
@@ -234,7 +114,6 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 		}
 		if (!sfvd.getDriveType().equals("")) {
 			BasicDBObject driveType = new BasicDBObject();
-			System.out.println("DRIVE TYPE INPUT: " + sfvd.getDriveType());
 			driveType.put("mechData.driveType",
 					Pattern.compile(".*" + sfvd.getDriveType().trim().toLowerCase() + "*.", Pattern.CASE_INSENSITIVE));
 			searchParamList.add(driveType);
@@ -253,22 +132,20 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 			displacementGreaterThan.put("mechData.displacment", new BasicDBObject("$gte", sfvd.getDisplacementLow()));
 			searchParamList.add(displacementGreaterThan);
 		}
-		
-		
+
 		if (sfvd.getCylindersHigh() != null) {
-			
+
 			BasicDBObject cylindersLessThan = new BasicDBObject();
 			cylindersLessThan.put("mechData.cylinders", new BasicDBObject("$lte", sfvd.getCylindersHigh()));
 			searchParamList.add(cylindersLessThan);
 		}
-		
+
 		if (sfvd.getCylindersLow() != null) {
-			
+
 			BasicDBObject cylindersGreaterThan = new BasicDBObject();
 			cylindersGreaterThan.put("mechData.cylinders", new BasicDBObject("$gte", sfvd.getCylindersLow()));
 			searchParamList.add(cylindersGreaterThan);
 		}
-		
 
 		if (!sfvd.getTransmissionType().equals("")) {
 
@@ -287,118 +164,68 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 		}
 
 		if (sfvd.getCityMpgHigh() != null) {
-			System.out.println("High city");
 			BasicDBObject cityMpgLessThan = new BasicDBObject();
 			cityMpgLessThan.put("epaData.cityMpg", new BasicDBObject("$lte", sfvd.getCityMpgHigh()));
 			searchParamList.add(cityMpgLessThan);
 		}
 
 		if (sfvd.getCityMpgLow() != null) {
-			System.out.println("LOW city");
 			BasicDBObject cityMpgGreaterThan = new BasicDBObject();
 			cityMpgGreaterThan.put("epaData.cityMpg", new BasicDBObject("$gte", sfvd.getCityMpgLow()));
 			searchParamList.add(cityMpgGreaterThan);
 		}
-		
-		
-		
-		
+
 		if (sfvd.getHasGasTax() != null) {
-			System.out.println("Has gas tx");
 			BasicDBObject hasGasTax = new BasicDBObject();
 			hasGasTax.put("epaData.hasGasTax", sfvd.getHasGasTax());
 			searchParamList.add(hasGasTax);
 		}
-		
-		
+
 		if (sfvd.getEmissionsHigh() != null) {
-			System.out.println("High em");
 			BasicDBObject emissionsLessThan = new BasicDBObject();
 			emissionsLessThan.put("epaData.emissions", new BasicDBObject("$lte", sfvd.getEmissionsHigh()));
 			searchParamList.add(emissionsLessThan);
 		}
-		
+
 		if (sfvd.getEmissionsLow() != null) {
-			System.out.println("LOW em");
 			BasicDBObject emissionsGreaterThan = new BasicDBObject();
 			emissionsGreaterThan.put("epaData.emissions", new BasicDBObject("$gte", sfvd.getEmissionsLow()));
 			searchParamList.add(emissionsGreaterThan);
 		}
-		
-		
-		
+
 		if (sfvd.getHighwayMpgHigh() != null) {
-			System.out.println("High hw");
 			BasicDBObject highwayMpgLessThan = new BasicDBObject();
 			highwayMpgLessThan.put("epaData.highwayMpg", new BasicDBObject("$lte", sfvd.getHighwayMpgHigh()));
 			searchParamList.add(highwayMpgLessThan);
 		}
-	
-		
+
 		if (sfvd.getHighwayMpgLow() != null) {
-			System.out.println("LOW hw");
 			BasicDBObject highwayMpgGreaterThan = new BasicDBObject();
 			highwayMpgGreaterThan.put("epaData.highwayMpg", new BasicDBObject("$gte", sfvd.getHighwayMpgLow()));
 			searchParamList.add(highwayMpgGreaterThan);
 		}
-		
-		
+
 		if (sfvd.getAverageMpgHigh() != null) {
-			System.out.println("High avg");
 			BasicDBObject averageMpgLessThan = new BasicDBObject();
 			averageMpgLessThan.put("epaData.averageMpg", new BasicDBObject("$lte", sfvd.getAverageMpgHigh()));
 			searchParamList.add(averageMpgLessThan);
 		}
-		
-		
+
 		if (sfvd.getAverageMpgLow() != null) {
-			System.out.println("LOW avg");
 			BasicDBObject averageMpgGreaterThan = new BasicDBObject();
 			averageMpgGreaterThan.put("epaData.highwayMpg", new BasicDBObject("$gte", sfvd.getAverageMpgLow()));
 			searchParamList.add(averageMpgGreaterThan);
 		}
-		
-		
-		
-		
-	
-		
-		
-		
 
-		// BasicDBObject yearGreaterThan = new BasicDBObject();
-		// yearGreaterThan.put("year",new
-		// BasicDBObject("$gte",sfvd.getYearLow()));
-		// searchParamList.add(yearGreaterThan);
-		//
-		//
-		// BasicDBObject yearGreaterThan = new BasicDBObject();
-		// yearGreaterThan.put("year",new
-		// BasicDBObject("$gte",sfvd.getYearLow()));
-		// searchParamList.add(yearGreaterThan);
-		//
-		//
-
-//		DBObject query = new BasicDBObject();
 
 		MongoCursor<Document> searchCursor = vehicleCollection.find(new BasicDBObject("$and", searchParamList))
 				.iterator();
 
-		// MongoCursor<Document> searchCursor =
-		// vehicleCollection.find(searchParam).iterator();
 		List<String> result = new ArrayList<>();
 		while (searchCursor.hasNext()) {
 			Document nextResult = searchCursor.next();
-			System.out.println(nextResult);
 			result.add(nextResult.toJson());
 		}
-		// MongoCursor<Document> searchCursor =
-		// vehicleCollection.find(
-		// Filters.eq(fieldName, value)
-		//
-		//
-		// ).iterator();
-		//
 
 		return result;
 
@@ -406,23 +233,10 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 
 	@Override
 	public String deleteVehicleById(String id) {
-		// TODO Auto-generated method stub
-		System.out.println(id);
 
 		ObjectId oid = new ObjectId(id);
 		Document v = vehicleCollection.find(Filters.eq("_id", oid)).first();
 		vehicleCollection.deleteOne(v);
-		System.out.println(v);
-
-		// vehicleCollection.(Filters.eq("_id",id));
-
-		// if(vehicleCursor.hasNext()){
-		// System.out.println();
-		// vehicleCollection.findOneAndDelete(vehicleCursor.next());
-		// }else{
-		// //TODO: its getting here, so its probably not finding stuff
-		// System.err.println("Could not be deleted");
-		// }
 		return null;
 	}
 
@@ -430,152 +244,142 @@ public class VehiclesMongoDBDAO implements VehiclesDAO {
 	public String getVehicleImage(String id) {
 		ImageScraper is = new ImageScraper();
 		ObjectId oid = new ObjectId(id);
-		Document vehicleDocument = vehicleCollection.find(Filters.eq("_id",oid)).projection(include("year","make","model")).first();
+		Document vehicleDocument = vehicleCollection.find(Filters.eq("_id", oid))
+				.projection(include("year", "make", "model")).first();
 		int year = (int) vehicleDocument.get("year");
 		String make = vehicleDocument.get("make").toString();
 		String model = vehicleDocument.get("model").toString();
-		
+
 		String imageLink = is.scrapeStuff(year, make, model);
-		System.out.println("DAO: " + imageLink);
-		String imageJSON = "{\"imageLink\":\""+imageLink+"\"}";
+		String imageJSON = "{\"imageLink\":\"" + imageLink + "\"}";
 		return imageJSON;
 
 	}
 
 	@Override
 	public String getMechData(String id) {
-		System.out.println(id);
-		
+
 		ObjectId oid = new ObjectId(id);
-		Document mechData = vehicleCollection.find(Filters.eq("_id", oid)).projection(fields(include("mechData"),exclude("_id"))).first();
-		System.out.println(mechData.toJson());
+		Document mechData = vehicleCollection.find(Filters.eq("_id", oid))
+				.projection(fields(include("mechData"), exclude("_id"))).first();
 		return mechData.toJson();
 	}
 
 	@Override
 	public String getEpaData(String id) {
-		System.out.println(id);
-		
+
 		ObjectId oid = new ObjectId(id);
-		Document epaData = vehicleCollection.find(Filters.eq("_id", oid)).projection(fields(include("epaData"),exclude("_id"))).first();
-		System.out.println(epaData.toJson());
+		Document epaData = vehicleCollection.find(Filters.eq("_id", oid))
+				.projection(fields(include("epaData"), exclude("_id"))).first();
 		return epaData.toJson();
 
 	}
 
-	//get lists
-	
+	// get lists
+
 	@Override
 	public Set<String> getModelListByMake(String make) {
-		MongoCursor<Document> cursor = vehicleCollection.find(Filters.eq("make", Pattern.compile(".*" + make.trim().toLowerCase() + "*.", Pattern.CASE_INSENSITIVE))).iterator();
+		MongoCursor<Document> cursor = vehicleCollection.find(
+				Filters.eq("make", Pattern.compile(".*" + make.trim().toLowerCase() + "*.", Pattern.CASE_INSENSITIVE)))
+				.iterator();
 		Set<String> modelList = new TreeSet<>();
-		while(cursor.hasNext()){
+		while (cursor.hasNext()) {
 			Document document = cursor.next();
 			String model = document.get("model").toString();
-			System.out.println(document);
-			System.out.println("this model:" + model);
 			modelList.add(model);
 		}
 		return modelList;
 	}
 
 	@Override
-	public Set<String> getTransmissionTypeList(){
-		MongoCursor<Document> resultCursor = vehicleCollection.find().projection(include("mechData.transmissionType")).iterator();
-		List<String> resultList = new ArrayList();
+	public Set<String> getTransmissionTypeList() {
+		MongoCursor<Document> resultCursor = vehicleCollection.find().projection(include("mechData.transmissionType"))
+				.iterator();
 		Set<String> resultSet = new TreeSet<>();
-		while(resultCursor.hasNext()){
+		while (resultCursor.hasNext()) {
 			Document result = resultCursor.next();
 			Document mechData = (Document) result.get("mechData");
-			String transmissionTypeString =  mechData.get("transmissionType").toString();
-			if(!transmissionTypeString.equals("")){
+			String transmissionTypeString = mechData.get("transmissionType").toString();
+			if (!transmissionTypeString.equals("")) {
 				resultSet.add(mechData.get("transmissionType").toString());
 			}
 		}
 		return resultSet;
-		
+
 	}
-	
+
 	@Override
-	public Set<String> getFuelTypeList(){
-		MongoCursor<Document> resultCursor = vehicleCollection.find().projection(include("mechData.fuelType")).iterator();
+	public Set<String> getFuelTypeList() {
+		MongoCursor<Document> resultCursor = vehicleCollection.find().projection(include("mechData.fuelType"))
+				.iterator();
 		List<String> resultList = new ArrayList();
 		Set<String> resultSet = new TreeSet<>();
-		while(resultCursor.hasNext()){
+		while (resultCursor.hasNext()) {
 			Document result = resultCursor.next();
 			Document mechData = (Document) result.get("mechData");
-			String fuelTypeString =  mechData.get("fuelType").toString();
-			if(!fuelTypeString.equals("")){
+			String fuelTypeString = mechData.get("fuelType").toString();
+			if (!fuelTypeString.equals("")) {
 				resultSet.add(mechData.get("fuelType").toString());
 			}
 		}
 		return resultSet;
-		
+
 	}
-	
+
 	@Override
-	public Set<String> getDriveTypeList(){
-		MongoCursor<Document> resultCursor = vehicleCollection.find().projection(include("mechData.driveType")).iterator();
+	public Set<String> getDriveTypeList() {
+		MongoCursor<Document> resultCursor = vehicleCollection.find().projection(include("mechData.driveType"))
+				.iterator();
 		List<String> resultList = new ArrayList();
 		Set<String> resultSet = new TreeSet<>();
-		while(resultCursor.hasNext()){
+		while (resultCursor.hasNext()) {
 			Document result = resultCursor.next();
 			Document mechData = (Document) result.get("mechData");
-			String driveTypeString =  mechData.get("driveType").toString();
-			if(!driveTypeString.equals("")){
+			String driveTypeString = mechData.get("driveType").toString();
+			if (!driveTypeString.equals("")) {
 				resultSet.add(mechData.get("driveType").toString());
 			}
 		}
 		return resultSet;
-		
+
 	}
-	
-	
+
 	@Override
-	public Set<String> getMakeList(){
+	public Set<String> getMakeList() {
 		MongoCursor<Document> resultCursor = vehicleCollection.find().projection(include("make")).iterator();
 		List<String> resultList = new ArrayList();
 		Set<String> resultSet = new TreeSet<>();
-		while(resultCursor.hasNext()){
+		while (resultCursor.hasNext()) {
 			Document result = resultCursor.next();
 			Document mechData = (Document) result.get("mechData");
-			String make =  result.get("make").toString();
-			if(!make.equals("")){
+			String make = result.get("make").toString();
+			if (!make.equals("")) {
 				resultSet.add(make);
 			}
 		}
 		return resultSet;
-		
-		
-		
+
 	}
-	
+
 	@Override
 	public String updateVehicle(VehicleFormData vfd) {
 		ObjectId oid = new ObjectId(vfd.getId());
-		System.out.println(oid);
 		Document vehicleToUpdate = vehicleCollection.find(Filters.eq("_id", oid)).first();
-		System.out.println("origin: " + vehicleToUpdate);
 		Document convertedVehicle = convertFormDataToDocument(vfd);
-		System.out.println("new: " + convertedVehicle);
 
 		vehicleCollection.replaceOne(Filters.eq("_id", oid), new Document(convertFormDataToMap(vfd)));
 
 		return "Updated";
 	}
-	
-	
+
 	@Override
 	public String addVehicle(VehicleFormData vfd) {
-		
+
 		Document convertedVehicle = convertFormDataToDocument(vfd);
-		System.out.println("new: " + convertedVehicle);
-		
+
 		vehicleCollection.insertOne(convertedVehicle);
 		return "Updated";
 	}
-	
-	
 
 	private Document convertFormDataToDocument(VehicleFormData vfd) {
 		Map<String, Object> vehicleDataMap = new HashMap<>();

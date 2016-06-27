@@ -27,7 +27,7 @@ public class ImageScraper {
 			
 			List<Integer> imageIndexes = new ArrayList<>();
 
-			//get a random one WORKS
+			//get a random one
 			for (int i = 0; i < resultImages.size(); i++) {
 				System.out.println(resultImages.get(i).attr("alt"));
 				
@@ -40,7 +40,7 @@ public class ImageScraper {
 		
 			int randomImageIndex = 1+(int)(Math.random()*imageIndexes.size()-1);
 			System.out.println(randomImageIndex);
-			//have this remove everything after the &&&&&&&&&& signnnnnn
+			//have this get everything before the &
 			String[] imageLinkSplit = (resultImages.get(randomImageIndex).attr("src")).trim().split("&");
 			imageLink = imageLinkSplit[0];
 			
@@ -50,7 +50,6 @@ public class ImageScraper {
 			
 		
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

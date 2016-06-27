@@ -8,37 +8,11 @@ import entities.VehicleFormData;
 
 public interface VehiclesDAO {
 
-	/*
-	 * Test Methods
-	 */
-	public String sayHi();
-	
-	//TODO TEST
-//	public void connect();
-//	
-//	public void disconnect();
-//	
-//	]
-	public List<String> test();
-	
+
 	/*
 	 * Get Vehicles
 	 */
-	public String getVehicles();
 	public String getVehicleById(String id);
-	public String getVehiclesById(String id);
-	public String getVehiclesByYearRange();
-	public String getVehiclesByMake();
-	public String getVehiclesByModel();
-	public String getVehiclesByDriveType();
-	public String getVehiclesByDisplacementRange();
-	public String getVehiclesByTransmission();
-	public String getVehiclesByCylinderRange();
-	public String getVehiclesByCylinders();
-	public String getVehiclesByFuelType();
-	public String getVehiclesByMpgRange();
-	public String getVehiclesByEmissionsRange();
-	public String getVehiclesByGasTax();
 	//genneral
 	public List<String> getVehiclesByParameters(SearchFormVehicleData sfvd);
 	/*
