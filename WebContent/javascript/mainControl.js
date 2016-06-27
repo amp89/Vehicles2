@@ -1,6 +1,18 @@
 $(document).ready(function() {
     console.log("control.js loaded");
 
+//    var $navLinks = $(".navtitle");
+//    	
+//    $navLinks.css("color","lime")
+//    $navLinks.on("mouseover",function(){
+//    	
+//    	css("color","lime");
+//    	
+//    });
+//    	
+    	
+    
+    
     var $mainDiv = $("#main");
     var $resultBody = $("#resultBody");
     // html forms
@@ -112,19 +124,23 @@ $(document).ready(function() {
             var model = result.model;
             console.log(resultId + " " + year + " " + make + " " + model);
             //			var mechData = "<div id="+resultId+"_MechData></div>";
-            var mechDataButton = "<button id='ShowMechData_" + resultId + "' vid='" + resultId + "'>Show Mech Data</button>";
-            var epaDataButton = "<button id='ShowEpaData_" + resultId + "' vid='" + resultId + "'>Show Epa Data</button>";
-            var imageButton = "<button id='ShowImage_" + resultId + "' vid='" + resultId + "'>Show Image</button>";
-            var modifyButton = "<button id='Modify_" + resultId + "' vid='" + resultId + "'>Modify</button>";
-            var deleteButton = "<button id='Delete_" + resultId + "' vid='" + resultId + "'>Delete</button>";
+            var mechDataButton = "<button class='vehicle_button' id='ShowMechData_" + resultId + "' vid='" + resultId + "'>Show Mech Data</button>";
+            var epaDataButton = "<button  class='vehicle_button'  id='ShowEpaData_" + resultId + "' vid='" + resultId + "'>Show Epa Data</button>";
+            var imageButton = "<button class='vehicle_button'  id='ShowImage_" + resultId + "' vid='" + resultId + "'>Show Image</button>";
+            var modifyButton = "<button   class='vehicle_button'  id='Modify_" + resultId + "' vid='" + resultId + "'>Modify</button>";
+            var deleteButton = "<button  class='vehicle_button'  id='Delete_" + resultId + "' vid='" + resultId + "'>Delete</button>";
             console.log(mechDataButton);
-            var singleResultBody = "<div vid='" + resultId + "' id='singleResultBody_" + resultId + "'>" + year + "  " + make + "  " + model + mechDataButton + epaDataButton + imageButton + modifyButton + deleteButton + "</div>";
+            var singleResultBody = "<div class='row center-text'>" +
+            "<div class='col-xs-12 vehicleResultTitle' vid='" + resultId + "' id='singleResultBody_" + resultId + "'>" + year + "  " + make + "  " + model +"</br></div>" +
+            "<div class='col-xs-12'>"+ mechDataButton + epaDataButton + imageButton + modifyButton + deleteButton + "<br></div>" +
+            "<div class='col-xs-12 vehicleResultTitle center-text' vid='" + resultId + "' id='singleResultData_" + resultId + "'>"+"</br></div>" +
+            						"</div>";
             $resultBody.append(singleResultBody);
             $modifyButton = $("#Modify_" + resultId);
             $modifyButton.on('click', function(event) {
                 event.preventDefault();
-                console.log(event);
-                var vidNumber = event.target.attributes[1].nodeValue;
+                console.log("eventarg attribute stuff" + event.target.parentNode);
+                var vidNumber = event.target.attributes[2].nodeValue;
                 console.log('midify');
                 modifyFormLoad(vidNumber);
             });
@@ -132,14 +148,14 @@ $(document).ready(function() {
             $deleteButton.on('click', function(event) {
                 event.preventDefault();
                 console.log(event);
-                var vidNumber = event.target.attributes[1].nodeValue;
+                var vidNumber = event.target.attributes[2].nodeValue;
                 console.log('delete time');
                 var idObject = {
                     id: vidNumber
                 }
 
                 var idToDelete = JSON.stringify(idObject);
-                var $matchingResultBody = $("#singleResultBody_" + vidNumber);
+                var $matchingResultBody = $("#singleResultData_" + vidNumber);
                 $.ajax({
                     type: "delete",
                     url: "rest/deleteById/" + vidNumber,
@@ -155,33 +171,35 @@ $(document).ready(function() {
                     console.log(event.target);
                     console.log(event.target.parent());
                     event.target.parentNode.empty();
-                    $matchingResultBody.empty();
+                    $matchingResultBody.parent().empty();
                 }).fail(function(data) {
-                    $matchingResultBody.empty();
+                    $matchingResultBody.parent().empty();
                     event.target.parentNode.empty();
                     console.log(data);
                     console.log("delete failed");
                 });
             });
-            var $singleResultBody = $("#singleResultBody_" + resultId);
+            var $singleResultBody = $("#singleResultData_" + resultId);
             //			$singeResultBody.append("<div id="+resultId+ ">"+year + "  " + make  + "  "  + model +"</div>");	
             var $mechDataButton = $("#ShowMechData_" + resultId); //this is only selecting the last one for some reason
             $mechDataButton.on("click", function(event) {
                 console.log(event);
-                var vidNumber = event.target.attributes[1].nodeValue;
+                var vidNumber = event.target.attributes[2].nodeValue;
+                
+                
                 console.log("VID NUMBER: " + vidNumber);
                 $.getJSON("rest/getMechData/" + vidNumber, null, function(data) {
                     console.log(data.mechData);
                     var mechData = data.mechData;
-                    //TODO append mech/epa data
-                    $("#ShowMechData_" + vidNumber).hide();
-                    var mechDiv = "<div id='mechDiv_" + vidNumber + "'></div>";
-                    var $matchingResultBody = $("#singleResultBody_" + vidNumber);
-                    $matchingResultBody.append(mechDiv);
-                    var $mechDiv = $("#mechDiv_" + vidNumber);
-                    $mechDiv.append("<ul></ul>");
-                    var $mechDivUL = $mechDiv.children();
-                    $mechDivUL.append("<li>Fuel Type: " + mechData.fuelType + "</li>")
+	                    //TODO append mech/epa data
+	                    $("#ShowMechData_" + vidNumber).hide();
+	                    var mechDiv = "<div class='col-xs-12 col-md-3 divData' id='mechDiv_" + vidNumber + "'></div>";
+	                    var $matchingResultBody = $("#singleResultData_" + vidNumber);
+	                    $matchingResultBody.append(mechDiv);
+	                    var $mechDiv = $("#mechDiv_" + vidNumber);
+	                    $mechDiv.append("<ul></ul>");
+	                    var $mechDivUL = $mechDiv.children();
+	                    $mechDivUL.append("<li>Fuel Type: " + mechData.fuelType + "</li>")
                     $mechDivUL.append("<li>Drive Type: " + mechData.driveType + "</li>")
                     $mechDivUL.append("<li>Transmission Type: " + mechData.transmissionType + "</li>")
                     $mechDivUL.append("<li>Displacement: " + mechData.displacment + "</li>")
@@ -192,15 +210,15 @@ $(document).ready(function() {
             var $epaDataButton = $("#ShowEpaData_" + resultId); //this is only selecting the last one for some reason
             $epaDataButton.on("click", function(event) {
                 console.log(event);
-                var vidNumber = event.target.attributes[1].nodeValue;
+                var vidNumber = event.target.attributes[2].nodeValue;
                 console.log("VID NUMBER: " + vidNumber);
                 $.getJSON("rest/getEpaData/" + vidNumber, null, function(data) {
                     console.log(data.epaData);
                     var epaData = data.epaData;
                     //TODO append mech/epa data
                     $("#ShowEpaData_" + vidNumber).hide();
-                    var epaDiv = "<div id='epaDiv_" + vidNumber + "'></div>";
-                    var $matchingResultBody = $("#singleResultBody_" + vidNumber);
+                    var epaDiv = "<div class='col-xs-12 col-md-3 divData' id='epaDiv_" + vidNumber + "'></div>";
+                    var $matchingResultBody = $("#singleResultData_" + vidNumber);
                     $matchingResultBody.append(epaDiv);
                     var $epaDiv = $("#epaDiv_" + vidNumber);
                     $epaDiv.append("<ul></ul>");
@@ -218,7 +236,7 @@ $(document).ready(function() {
             var $imageButton = $("#ShowImage_" + resultId); //this is only selecting the last one for some reason
             $imageButton.on("click", function(event) {
                 console.log(event);
-                var vidNumber = event.target.attributes[1].nodeValue;
+                var vidNumber = event.target.attributes[2].nodeValue;
                 console.log("VID NUMBER: " + vidNumber);
                 $.getJSON("rest/getImage/" + vidNumber, null, function(data) {
                     console.log(data);
@@ -226,11 +244,11 @@ $(document).ready(function() {
                     var imageLink = data.imageLink;
                     //TODO append mech/epa data
                     $("#ShowImage_" + vidNumber).hide();
-                    var imageDiv = "<div id='imageDiv_" + vidNumber + "'></div>";
-                    var $matchingResultBody = $("#singleResultBody_" + vidNumber);
+                    var imageDiv = "<div class='col-xs-12 col-md-3 divData' id='imageDiv_" + vidNumber + "'></div>";
+                    var $matchingResultBody = $("#singleResultData_" + vidNumber);
                     $matchingResultBody.append(imageDiv);
                     var $imageDiv = $("#imageDiv_" + vidNumber);
-                    $imageDiv.append("<img src='" + imageLink + "' alt='" + vidNumber + "' />");
+                    $imageDiv.append("<img class='fitImage' src='" + imageLink + "' alt='" + vidNumber + "' />");
 
 
                 }, 'text');
@@ -259,14 +277,27 @@ $(document).ready(function() {
 
         $mainDiv.load("htmlParts/searchForm.html", null, function() {
 
+        	//load in year selection
+        	
+        	var $yearSelect = $(".yearSelect");
+        	
+        	$yearSelect.append("<option value=''>Any</option>");
+      
+        	for(var year = 1980; year < 2020; year++){
+        		$yearSelect.append("<option value='"+year+"'>"+year+"</option>");
+        	}
+        	
             //load in make list
             var $makeSelect = $("#makeSelect");
+            
+                       
+            
             $.getJSON("rest/getMakeList", null, function(data) {
                 var makeList = data;
                 for (var i = 0; i < makeList.length; i++) {
                     var make = makeList[i]
                     console.log(make);
-                    $makeSelect.append("<option value=" + make + ">" + make + "</option>");
+                    $makeSelect.append("<option value='" + make + "'>" + make + "</option>");
 
                 };
                 $makeSelect.on('change', function(event) {

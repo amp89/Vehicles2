@@ -3,7 +3,20 @@
 		<table>
 			<tr>
 				<td>Year:</td>
-				<td><input type ="number" name="yearLow" placeholder="ANY"/> to <input type ="number" name="yearHigh" placeholder="ANY" /></td>
+				<td id="yearTd">
+				<select class="yearSelect" name="yearLow">
+				</select>
+				to
+				<select class="yearSelect"  name="yearHigh" >
+				</select>
+				
+				
+<!-- 				<input type ="number" name="yearLow" placeholder="ANY"/>
+				to
+				<input type ="number" name="yearHigh" placeholder="ANY" />
+				 -->
+				
+				</td>
 			</tr>
 		
 			
@@ -22,7 +35,7 @@
 				<!-- <td><input type ="text" name="model" placeholder="ANY"  value="focus" /></td> -->
 				<td id="modelTd">
 					<select id="modelSelect" name="model">
-						<option value="">Any</option>
+						<option value="">Select Make First</option>
 					</select>
 				</td>
 			</tr>
@@ -109,56 +122,56 @@
 			</tr>
 			
 			<tr>
-				<td>Displacement Low</td>
-				<td><input type ="number" step=".1" name="displacementLow" placeholder="ANY"/> to <input type ="text" step=".1"  name="displacementHigh" placeholder="ANY"/></td>
+				<td>Displacement</td>
+				<td><input type ="number" name="displacementLow" placeholder="ANY"/> to <input type ="number"  name="displacementHigh" placeholder="ANY"/></td>
 			</tr>
 
 			
 			<tr>
-				<td>City MPG Low</td>
-				<td><input type ="text" name="cityMpgLow" placeholder="ANY" /></td>
+				<td>City MPG</td>
+				<td><input type ="number" name="cityMpgLow" placeholder="ANY" /> to <input type ="number" name="cityMpgHigh" placeholder="ANY"/></td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<td>City MPG High</td>
-				<td><input type ="text" name="cityMpgHigh" placeholder="ANY"/></td>
-			</tr>
+				<td><input type ="number" name="cityMpgHigh" placeholder="ANY"/></td>
+			</tr> -->
 			
 			<tr>
-				<td>Highway MPG Low</td>
-				<td><input type ="text" name="highwayMpgLow" placeholder="ANY"/></td>
+				<td>Highway MPG</td>
+				<td><input type ="number" name="highwayMpgLow" placeholder="ANY"/> to <input type ="number" name="highwayMpgHigh" placeholder="ANY"/></td>
 			</tr>
-			<tr>
+	<!-- 		<tr>
 				<td>Highway MPG High</td>
 				<td><input type ="text" name="highwayMpgHigh" placeholder="ANY"/></td>
 			</tr>
-			
+			 -->
 			<tr>
-				<td>Average MPG Low</td>
-				<td><input type ="text" name="averageMpgLow" placeholder="ANY"/></td>
+				<td>Average MPG</td>
+				<td><input type ="number" name="averageMpgLow" placeholder="ANY"/> to <input type ="number" name="averageMpgHigh" placeholder="ANY"/></td>
 			</tr>
 			
-			<tr>
+<!-- 			<tr>
 				<td>Average MPG High</td>
 				<td><input type ="text" name="averageMpgHigh" placeholder="ANY"/></td>
-			</tr>
+			</tr> -->
 			
 			
 			<tr>
 				<td>Has Gas Tax?</td>
 				<td><!-- <input type ="text" name="hasGasTax" /> -->
-					<input type="radio" name="hasGasTax" value="true">True <input type="radio" name="hasGasTax" value="false">False  
+					<input type="radio" name="hasGasTax" value="true">True <input type="radio" name="hasGasTax" value="false">False <input type="radio" name="hasGasTax" value="" checked>Don't care 
 
 				</td>
 			</tr>
 			
 			<tr>
 				<td>Emissions Output Low</td>
-				<td><input type ="text" name="emissionsLow" placeholder="ANY"/></td>
+				<td><input type ="number" name="emissionsLow" placeholder="ANY"/> to <input type ="number" name="emissionsHigh" placeholder="ANY"/></td>
 			</tr>
-			<tr>
+	<!-- 		<tr>
 				<td>Emissions Output High</td>
-				<td><input type ="text" name="emissionsHigh" placeholder="ANY"/></td>
-			</tr>
+				<td><input type ="number" name="emissionsHigh" placeholder="ANY"/></td>
+			</tr> -->
 		
 		</table>
 		<button id="submitSearch" type="submit">Search for Vehicles</button>

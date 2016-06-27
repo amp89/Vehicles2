@@ -1,0 +1,80 @@
+button {
+	background-color: #8a0001;
+	color:rgb(245,245,245);
+	
+}
+
+button:hover{
+	background-color: #140000;
+	color:rgb(245,245,245);
+}
+
+body {
+	background: url(http://o.aolcdn.com/dims-shared/dims3/GLOB/legacy_thumbnail/800x450/format/jpg/quality/85/http://www.blogcdn.com/www.autoblog.com/media/2010/05/lambo-murcielago-08.jpg) top left no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	}
+	
+	
+	.navbar{
+		background-color: #8a0001;
+		/* color: #610000; */
+		
+	}
+	
+	a{
+	color:rgb(245,245,245);
+	}
+	
+	#navTitle:hover{
+	color:rgb(30,30,30);
+	}
+	
+	
+	#navTitle{
+		font-size:1.5em;
+		font-weight:bold;
+	color:rgb(245,245,245);
+	}
+	
+	.top-panel{
+	margin-top: 10%;
+	}
+	
+	.half_button{
+	font-size:1.8em;
+		width:50%;
+		display:inline-block;
+	}
+	
+	
+	
+	.vehicleResultTitle{
+	font-size:1.9em;
+	display:block;
+	color:rgb(50,50,50);
+	width:80%;
+	text-shadow: 1px 1px 1px black;
+	text-align:center;
+	
+	}
+	
+	.divData{
+		font-size: .8em;
+		padding:2%;
+	}
+	
+	.vehicle_button{
+		font-size:1em;
+		width:95%;
+		margin:auto;
+	}
+	
+	.fitImage{
+		width:100%;
+	}
+	
+	.center-text{
+	text-align:center;
+	}
+	
